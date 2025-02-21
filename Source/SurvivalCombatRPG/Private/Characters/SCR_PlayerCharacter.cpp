@@ -1,12 +1,9 @@
 // Copyright Ricky Everest
-
+#include "Characters/SCR_PlayerCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-
-
-#include "Characters/SCR_PlayerCharacter.h"
 
 #include "SCR_DebugHelper.h"
 

@@ -9,7 +9,8 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine"
+				"Engine",
+				"EnhancedInput"
 			]
 		}
 	],
@@ -20,6 +21,16 @@
 			"TargetAllowList": [
 				"Editor"
 			]
+		},
+		{
+			"Name": "Prismatiscape",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/28e700a562a941978b2f3d46df591e05"
+		},
+		{
+			"Name": "VertexPaintDetectionPlugin",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/e248813f07134ecfb10e65ba84e706c2"
 		}
 	]
 }
