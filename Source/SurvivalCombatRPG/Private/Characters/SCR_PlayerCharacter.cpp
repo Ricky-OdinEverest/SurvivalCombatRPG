@@ -17,13 +17,22 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(GetRootComponent());
-	CameraBoom->TargetArmLength = 200.f;
+	CameraBoom->TargetArmLength = CameraBoomLength;
 	CameraBoom->SocketOffset = FVector(0.f,55.f,65.f);
 	CameraBoom->bUsePawnControlRotation = true;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom,USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	Weapon = CreateDefaultSubobject<UStaticMeshComponent>("Weapon");
+	Weapon->SetupAttachment(GetMesh(), FName(TEXT("katana_Targer01")));
+	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	Scabbard = CreateDefaultSubobject<UStaticMeshComponent>("Scabbard");
+	Scabbard->SetupAttachment(GetMesh(), FName(TEXT("Scabbard_Target01")));
+	Scabbard->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f,500.f,0.f);

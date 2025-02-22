@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "SCR_BaseCharacter.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class SURVIVALCOMBATRPG_API ASCR_BaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
