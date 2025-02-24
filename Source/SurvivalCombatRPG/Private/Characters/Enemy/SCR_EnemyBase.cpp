@@ -1,26 +1,26 @@
 // Copyright Ricky Everest
 
 
-#include "Characters/Player/SCR_PlayerState.h"
-
+#include "Characters/Enemy/SCR_EnemyBase.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "AbilitySystem/SCR_AttributeSet.h"
 
-ASCR_PlayerState::ASCR_PlayerState()
+ASCR_EnemyBase::ASCR_EnemyBase()
 {
+
+	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	
 	AbilitySystemComponent = CreateDefaultSubobject<USCR_AbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
-	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	AttributeSet = CreateDefaultSubobject<USCR_AttributeSet>("AttributeSet");
 	
-	// How often Server is Updated for clients
-	// 100.f 
-	NetUpdateFrequency = 100.f;
 }
 
-UAbilitySystemComponent* ASCR_PlayerState::GetAbilitySystemComponent() const
+void ASCR_EnemyBase::BeginPlay()
 {
-	return AbilitySystemComponent;
+	Super::BeginPlay();
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
+

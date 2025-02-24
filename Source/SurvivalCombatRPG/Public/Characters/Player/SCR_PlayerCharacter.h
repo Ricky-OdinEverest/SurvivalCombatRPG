@@ -22,6 +22,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
 private:
 
 #pragma region Components
@@ -44,5 +47,8 @@ private:
 	UStaticMeshComponent* Scabbard;
 
 #pragma endregion
+
+
+	void InitAbilityActorInfo();
 	
 };
