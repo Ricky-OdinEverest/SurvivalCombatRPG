@@ -4,28 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "GameFramework/Character.h"
-#include "SCR_BaseCharacter.generated.h"
+#include "GameFramework/PlayerState.h"
+#include "SCR_PlayerState.generated.h"
 
-class UAttributeSet;
 class UAbilitySystemComponent;
-
-UCLASS(Abstract)
-class SURVIVALCOMBATRPG_API ASCR_BaseCharacter : public ACharacter, public IAbilitySystemInterface
+class UAttributeSet;
+/**
+ * 
+ */
+UCLASS()
+class SURVIVALCOMBATRPG_API ASCR_PlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
-
-	ASCR_BaseCharacter();
+	ASCR_PlayerState();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
-
 protected:
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 };

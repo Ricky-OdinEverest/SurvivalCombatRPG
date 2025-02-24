@@ -13,3 +13,8 @@ ASCR_BaseCharacter::ASCR_BaseCharacter()
 	GetMesh()->bReceivesDecals = false;
 
 }
+
+UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
