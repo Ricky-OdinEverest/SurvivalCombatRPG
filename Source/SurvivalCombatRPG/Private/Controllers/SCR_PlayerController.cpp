@@ -20,19 +20,22 @@ void ASCR_PlayerController::BeginPlay()
 	Super::BeginPlay();
 	
 	Debug::Print(TEXT("Working"));
+
+	checkf(InputConfigDataAsset,TEXT("Forgot to assign a valid data asset as input config"));
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+
+	if (Subsystem)
+	{
+		Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext,0);
+
+	}
 }
 void ASCR_PlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 	
-	checkf(InputConfigDataAsset,TEXT("Forgot to assign a valid data asset as input config"));
 	
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-
-	check(Subsystem);
-
-	Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext,0);
-
 	USCR_EnhancedInputComponent* SCR_EnhancedInputComponent = CastChecked<USCR_EnhancedInputComponent>(InputComponent);
 
 	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfigDataAsset,SCR_GameplayTags::InputTag_Move,ETriggerEvent::Triggered,this,&ThisClass::Input_Move);

@@ -6,9 +6,12 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-
+#include  "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "SCR_DebugHelper.h"
 #include "Characters/Player/SCR_PlayerState.h"
+#include "Controllers/SCR_PlayerController.h"
+#include "DataAssets/StartUpData/DataAsset_PlayerStartUpData.h"
+#include "UI/HUD/SCR_HUD.h"
 
 ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 {
@@ -55,13 +58,7 @@ void ASCR_PlayerCharacter::PossessedBy(AController* NewController)
 
 	// Init ability actor info for the Server
 	InitAbilityActorInfo();
-	if (AbilitySystemComponent && AttributeSet)
-	{
-		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"),*AbilitySystemComponent->GetOwnerActor()->GetActorLabel(),*AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
-		
-		Debug::Print(TEXT("Ability system component valid. ") + ASCText,FColor::Green);
-		Debug::Print(TEXT("AttributeSet valid. ") + ASCText,FColor::Green);
-	}
+
 	
 }
 
@@ -81,4 +78,26 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 	SCR_PlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(SCR_PlayerState, this);
 	AbilitySystemComponent = SCR_PlayerState->GetAbilitySystemComponent();
 	AttributeSet = SCR_PlayerState->GetAttributeSet();
+
+	if (ASCR_PlayerController* SCR_PlayerController = Cast<ASCR_PlayerController>(GetController()))
+	{
+		if (ASCR_HUD* SCR_HUD = Cast<ASCR_HUD>(SCR_PlayerController->GetHUD()))
+		{
+			SCR_HUD->InitOverlay(SCR_PlayerController, SCR_PlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
+
+	// So Far Unable To Get This to Work with the current pointer structure
+	/*if(AbilitySystemComponent)
+	{
+		ensureMsgf(!CharacterStartUpData.IsNull(),TEXT("Forgot to assign start up data to %s"),*GetName());
+	}
+
+	if (!CharacterStartUpData.IsNull())
+	{
+		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(AbilitySystemComponent);
+		}
+	}*/
 }
