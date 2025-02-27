@@ -10,3 +10,11 @@ void USCR_WidgetController::SetWidgetControllerParams(const FWidgetControllerPar
 	AbilitySystemComponent = WCParams.AbilitySystemComponent;
 	AttributeSet = WCParams.AttributeSet;
 }
+
+void USCR_WidgetController::BroadcastInitialValues()
+{
+}
+
+void USCR_WidgetController::BindCallbacksToDependencies()
+{
+}
