@@ -76,6 +76,7 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 	ASCR_PlayerState* SCR_PlayerState = GetPlayerState<ASCR_PlayerState>();
 	check(SCR_PlayerState);
 	SCR_PlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(SCR_PlayerState, this);
+	Cast<USCR_AbilitySystemComponent>(SCR_PlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = SCR_PlayerState->GetAbilitySystemComponent();
 	AttributeSet = SCR_PlayerState->GetAttributeSet();
 

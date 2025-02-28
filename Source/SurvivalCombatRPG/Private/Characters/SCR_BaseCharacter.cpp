@@ -18,3 +18,7 @@ UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
+
+void ASCR_BaseCharacter::InitAbilityActorInfo()
+{
+}

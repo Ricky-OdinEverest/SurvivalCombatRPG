@@ -1,0 +1,9 @@
+RowName,Tag,DevComment
+NewRow_0,Attributes.Primary.Inteligence,IncreaseMagicalDamage
+NewRow_1,Attributes.Primary.Resilience,
+NewRow_2,Attributes.Primary.Strength,
+NewRow_3,Attributes.Primary.Vigor,
+NewRow_4,Attributes.Vital.Health,
+NewRow_5,Attributes.Vital.Mana,
+NewRow_6,Attributes.Vital.MaxHealth,
+NewRow_7,Attributes.Vital.MaxMana,

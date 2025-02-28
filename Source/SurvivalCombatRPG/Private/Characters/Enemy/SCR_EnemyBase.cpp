@@ -23,4 +23,3 @@ void ASCR_EnemyBase::BeginPlay()
 	Super::BeginPlay();
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
-
