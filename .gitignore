@@ -4,6 +4,10 @@ Intermediate
 Saved
 Build
 Assets
+
+Content/FabricMaterials_2/
+Assets/CharacterCreatorExports/*.Fbx
+
 .vscode
 .vs
 *.VC.db
