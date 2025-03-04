@@ -13,4 +13,4 @@ Build
 *.sln
 *.suo
 *.xcodeproj
-*.xcworkspace
+*.xcworkspaceAssets/
