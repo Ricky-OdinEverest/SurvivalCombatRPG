@@ -6,6 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "SCR_AbilitySystemComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /*AssetTags*/);
+
 /**
  * 
  */
@@ -16,6 +18,8 @@ class SURVIVALCOMBATRPG_API USCR_AbilitySystemComponent : public UAbilitySystemC
 	
 public:
 	void AbilityActorInfoSet();
+
+	FEffectAssetTags EffectAssetTags;
 	
 protected:
 

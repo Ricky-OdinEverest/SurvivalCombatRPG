@@ -2,6 +2,7 @@
 
 
 #include "Characters/SCR_BaseCharacter.h"
+#include "AbilitySystemComponent.h"
 
 // Sets default values
 ASCR_BaseCharacter::ASCR_BaseCharacter()
@@ -21,4 +22,13 @@ UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
 
 void ASCR_BaseCharacter::InitAbilityActorInfo()
 {
+}
+
+void ASCR_BaseCharacter::InitializePrimaryAttributes() const
+{
+	check(IsValid(GetAbilitySystemComponent()));
+	check(DefaultPrimaryAttributes);
+	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.f, ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }

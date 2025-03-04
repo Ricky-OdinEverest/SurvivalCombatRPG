@@ -10,6 +10,7 @@
 class UAttributeSet;
 class UAbilitySystemComponent;
 class UDataAsset_StartUpDataBase;
+class UGameplayEffect;
 
 UCLASS(Abstract)
 class SURVIVALCOMBATRPG_API ASCR_BaseCharacter : public ACharacter, public IAbilitySystemInterface
@@ -35,4 +36,9 @@ protected:
 	TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;
 
 	virtual void InitAbilityActorInfo();
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+
+	void InitializePrimaryAttributes() const;
 };

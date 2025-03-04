@@ -21,6 +21,11 @@ USCR_AttributeSet::USCR_AttributeSet()
 void USCR_AttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, Strength, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, Intelligence, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, Resilience, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, Vigor, COND_None, REPNOTIFY_Always);
+	
 	
 	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
@@ -47,6 +52,15 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
+	
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+	}
+	if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	{
+		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+	}
 }
 
 void USCR_AttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
@@ -100,4 +114,28 @@ void USCR_AttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const
 void USCR_AttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, MaxMana, OldMaxMana);
+}
+
+void USCR_AttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, Strength, OldStrength);
+
+}
+
+void USCR_AttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, Intelligence, OldIntelligence);
+
+}
+
+void USCR_AttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResilience) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, Resilience, OldResilience);
+
+}
+
+void USCR_AttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, Vigor, OldVigor);
+
 }

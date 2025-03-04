@@ -42,7 +42,7 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f,500.f,0.f);
-	GetCharacterMovement()->MaxWalkSpeed = 400.f;
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 }
 
@@ -87,6 +87,8 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 			SCR_HUD->InitOverlay(SCR_PlayerController, SCR_PlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
+
+	InitializePrimaryAttributes();
 
 	// So Far Unable To Get This to Work with the current pointer structure
 	/*if(AbilitySystemComponent)

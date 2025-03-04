@@ -21,5 +21,14 @@ ASCR_EnemyBase::ASCR_EnemyBase()
 void ASCR_EnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	InitAbilityActorInfo();
+
+}
+
+void ASCR_EnemyBase::InitAbilityActorInfo()
+{
+
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	Cast<USCR_AbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }
