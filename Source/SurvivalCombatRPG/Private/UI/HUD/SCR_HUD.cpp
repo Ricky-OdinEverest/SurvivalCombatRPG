@@ -2,9 +2,22 @@
 
 
 #include "UI/HUD/SCR_HUD.h"
+
+#include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "UI/Widgets/SCR_UserWidget.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 
+
+UAttributeMenuWidgetController* ASCR_HUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams)
+{
+	if (AttributeMenuWidgetController == nullptr)
+	{
+		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->SetWidgetControllerParams(WCParams);
+		AttributeMenuWidgetController->BindCallbacksToDependencies();
+	}
+	return AttributeMenuWidgetController;
+}
 
 UOverlayWidgetController* ASCR_HUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
 {
@@ -14,8 +27,7 @@ UOverlayWidgetController* ASCR_HUD::GetOverlayWidgetController(const FWidgetCont
 		OverlayWidgetController->SetWidgetControllerParams(WCParams);
 
 		OverlayWidgetController->BindCallbacksToDependencies();
-
-		return OverlayWidgetController;
+		
 	}
 	return OverlayWidgetController;
 }

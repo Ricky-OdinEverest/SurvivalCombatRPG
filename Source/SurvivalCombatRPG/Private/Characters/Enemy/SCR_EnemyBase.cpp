@@ -18,6 +18,11 @@ ASCR_EnemyBase::ASCR_EnemyBase()
 	
 }
 
+int32 ASCR_EnemyBase::GetPlayerLevel()
+{
+	return Level;
+}
+
 void ASCR_EnemyBase::BeginPlay()
 {
 	Super::BeginPlay();

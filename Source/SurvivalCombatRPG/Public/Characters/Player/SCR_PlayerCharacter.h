@@ -18,6 +18,10 @@ class SURVIVALCOMBATRPG_API ASCR_PlayerCharacter : public ASCR_BaseCharacter
 
 public:
 	ASCR_PlayerCharacter();
+
+	/** Combat Interface */
+	virtual int32 GetPlayerLevel() override;
+	/** end Combat Interface */
 	
 protected:
 	virtual void BeginPlay() override;

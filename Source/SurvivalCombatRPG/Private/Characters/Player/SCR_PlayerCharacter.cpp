@@ -46,6 +46,13 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 }
 
+int32 ASCR_PlayerCharacter::GetPlayerLevel()
+{
+	const ASCR_PlayerState* AuraPlayerState = GetPlayerState<ASCR_PlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerLevel();
+}
+
 void ASCR_PlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -88,7 +95,7 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 		}
 	}
 
-	InitializePrimaryAttributes();
+	InitializeDefaultAttributes();
 
 	// So Far Unable To Get This to Work with the current pointer structure
 	/*if(AbilitySystemComponent)
