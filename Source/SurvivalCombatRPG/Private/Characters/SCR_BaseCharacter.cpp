@@ -3,6 +3,7 @@
 
 #include "Characters/SCR_BaseCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/SCR_AbilitySystemComponent.h"
 
 // Sets default values
 ASCR_BaseCharacter::ASCR_BaseCharacter()
@@ -41,5 +42,13 @@ void ASCR_BaseCharacter::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
+}
+
+void ASCR_BaseCharacter::AddCharacterAbilities()
+{
+	USCR_AbilitySystemComponent* SCR_ASC = CastChecked<USCR_AbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+
+	SCR_ASC->AddCharacterAbilities(StartupAbilities);
 }
 

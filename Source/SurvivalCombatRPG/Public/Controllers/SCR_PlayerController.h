@@ -4,9 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "SCR_PlayerController.generated.h"
 
-class UDataAsset_InputConfig;
+class UInputAction;
+class USCR_InputConfig;
+class IEnemyInterface;
+
+class USCR_AbilitySystemComponent;
+class USplineComponent;
 struct FInputActionValue;
 /**
  * 
@@ -22,15 +28,47 @@ protected:
 	virtual void SetupInputComponent() override;
 private:
 
-#pragma region Inputs
+
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UDataAsset_InputConfig> InputConfigDataAsset;
+	TObjectPtr<USCR_InputConfig> InputConfig;;
+
+	UPROPERTY()
+	TObjectPtr<USCR_AbilitySystemComponent> SCR_AbilitySystemComponent;
+
+	USCR_AbilitySystemComponent* GetASC();
 
 	void Input_Move(const FInputActionValue& InputActionValue);
 	void Input_Look(const FInputActionValue& InputActionValue);
 	void Input_Jump(const FInputActionValue& InputActionValue);
+	void CursorTrace();
+	TScriptInterface<IEnemyInterface> LastActor;
+	TScriptInterface<IEnemyInterface> ThisActor;
+	
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+	
+	
+	FVector CachedDestination = FVector::ZeroVector;
+	float FollowTime = 0.f;
+	float ShortPressThreshold = 0.5f;
+	bool bAutoRunning = false;
+	bool bTargeting = false;
+ 
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius = 50.f;
+ 
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USplineComponent> Spline;
 
-
-#pragma endregion
+	//UPROPERTY(EditAnywhere, Category="Input")
+	//TObjectPtr<UInputAction> MoveAction;
+ 
+	//void Move(const FInputActionValue& InputActionValue);
+ 
+	
+	
 };
+
+

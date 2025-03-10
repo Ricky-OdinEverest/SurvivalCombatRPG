@@ -19,6 +19,12 @@ UCLASS()
 class SURVIVALCOMBATRPG_API USRC_GameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
+
+public:
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	FGameplayTag StartupInputTag;
+	
 protected:
 	//~ Begin UGameplayAbility Interface.
 	virtual void OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;

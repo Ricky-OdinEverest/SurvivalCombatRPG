@@ -15,7 +15,8 @@ public class SurvivalCombatRPG : ModuleRules
 			"EnhancedInput",
 			"GameplayTags",
 			"GameplayTasks",
-			"GameplayAbilities"
+			"GameplayAbilities",
+			"NavigationSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

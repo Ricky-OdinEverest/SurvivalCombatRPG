@@ -65,7 +65,7 @@ void ASCR_PlayerCharacter::PossessedBy(AController* NewController)
 
 	// Init ability actor info for the Server
 	InitAbilityActorInfo();
-
+	AddCharacterAbilities();
 	
 }
 
