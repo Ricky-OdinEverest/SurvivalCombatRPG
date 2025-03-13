@@ -19,6 +19,16 @@
 ASCR_PlayerController::ASCR_PlayerController()
 {
 	bReplicates = true;
+
+	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
+}
+
+void ASCR_PlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
+	AutoRun();
 }
 
 void ASCR_PlayerController::BeginPlay()
@@ -47,7 +57,8 @@ void ASCR_PlayerController::SetupInputComponent()
 	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_Move,ETriggerEvent::Triggered,this,&ThisClass::Input_Move);
 	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_Look,ETriggerEvent::Triggered,this,&ThisClass::Input_Look);
 	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_Jump,ETriggerEvent::Triggered,this,&ThisClass::Input_Jump);
-
+	SCR_EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ASCR_PlayerController::ShiftPressed);
+	SCR_EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ASCR_PlayerController::ShiftReleased);
 	
 	//SCR_EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ASCR_PlayerController::Input_Move);
 	SCR_EnhancedInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
@@ -101,57 +112,17 @@ void ASCR_PlayerController::Input_Jump(const FInputActionValue& InputActionValue
 
 void ASCR_PlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
+	
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();
-	/**
-	 * Line trace from cursor. There are several scenarios:
-	 *  A. LastActor is null && ThisActor is null
-	 *		- Do nothing
-	 *	B. LastActor is null && ThisActor is valid
-	 *		- Highlight ThisActor
-	 *	C. LastActor is valid && ThisActor is null
-	 *		- UnHighlight LastActor
-	 *	D. Both actors are valid, but LastActor != ThisActor
-	 *		- UnHighlight LastActor, and Highlight ThisActor
-	 *	E. Both actors are valid, and are the same actor
-	 *		- Do nothing
-	 */
-	if (LastActor == nullptr)
+	if (LastActor != ThisActor)
 	{
-		if (ThisActor != nullptr)
-		{
-			// Case B
-			ThisActor->HighlightActor();
-		}
-		else
-		{
-			// Case A - both are null, do nothing
-		}
+		if (LastActor) LastActor->UnHighlightActor();
+		if (ThisActor) ThisActor->HighlightActor();
 	}
-	else // LastActor is valid
-	{
-		if (ThisActor == nullptr)
-		{
-			// Case C
-			LastActor->UnHighlightActor();
-		}
-		else // both actors are valid
-		{
-			if (LastActor != ThisActor)
-			{
-				// Case D
-				LastActor->UnHighlightActor();
-				ThisActor->HighlightActor();
-			}
-			else
-			{
-				// Case E - do nothing
-			}
-		}
-	}
+	
 }
 
 void ASCR_PlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
@@ -170,35 +141,35 @@ void ASCR_PlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		if (GetASC())
 		{
 			GetASC()->AbilityInputTagReleased(InputTag);
+			return;
 		}
-		return;
+		
 	}
- 
-	if (bTargeting)
+	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+	
+	if (!bTargeting && !bShiftKeyDown)
 	{
 		if (GetASC())
 		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
-	}
-	else
-	{
-		APawn* ControlledPawn = GetPawn();
-		if (FollowTime <= ShortPressThreshold && ControlledPawn)
-		{
-			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
+			APawn* ControlledPawn = GetPawn();
+			if (FollowTime <= ShortPressThreshold && ControlledPawn)
 			{
-				Spline->ClearSplinePoints();
-				for (const FVector& PointLoc : NavPath->PathPoints)
+				if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
 				{
-					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-					DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
+					Spline->ClearSplinePoints();
+					for (const FVector& PointLoc : NavPath->PathPoints)
+					{
+						Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+						//DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
+					}
+					CachedDestination =  NavPath->PathPoints.IsEmpty()  ? ControlledPawn->GetActorLocation(): NavPath->PathPoints.Last();
+
+					bAutoRunning = true;
 				}
-				bAutoRunning = true;
 			}
+			FollowTime = 0.f;
+			bTargeting = false;
 		}
-		FollowTime = 0.f;
-		bTargeting = false;
 	}
 }
 
@@ -209,11 +180,12 @@ void ASCR_PlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		if (GetASC())
 		{
 			GetASC()->AbilityInputTagHeld(InputTag);
+			return;
 		}
-		return;
+		
 	}
  
-	if (bTargeting)
+	if (bTargeting || bShiftKeyDown)
 	{
 		if (GetASC())
 		{
@@ -224,16 +196,32 @@ void ASCR_PlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
  
-		FHitResult Hit;
-		if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+		if (CursorHit.bBlockingHit)
 		{
-			CachedDestination = Hit.ImpactPoint;
+			CachedDestination = CursorHit.ImpactPoint;
 		}
  
 		if (APawn* ControlledPawn = GetPawn())
 		{
 			const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
 			ControlledPawn->AddMovementInput(WorldDirection);
+		}
+	}
+}
+
+void ASCR_PlayerController::AutoRun()
+{
+	if (!bAutoRunning) return;
+	if (APawn* ControlledPawn = GetPawn())
+	{
+		const FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(), ESplineCoordinateSpace::World);
+		const FVector Direction = Spline->FindDirectionClosestToWorldLocation(LocationOnSpline, ESplineCoordinateSpace::World);
+		ControlledPawn->AddMovementInput(Direction);
+ 
+		const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
+		if (DistanceToDestination <= AutoRunAcceptanceRadius)
+		{
+			bAutoRunning = false;
 		}
 	}
 }

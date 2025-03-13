@@ -2,7 +2,7 @@
 
 
 #include "SCR_AssetManager.h"
-
+#include "AbilitySystemGlobals.h"
 #include "SCR_GameplayTags.h"
 
 USCR_AssetManager& USCR_AssetManager::Get()
@@ -17,4 +17,7 @@ void USCR_AssetManager::StartInitialLoading()
 {
 	Super::StartInitialLoading();
 	FSCR_GameplayTags::InitializeNativeGameplayTags();
+
+	// This is required to use Target Data!
+	UAbilitySystemGlobals::Get().InitGlobalData();
 }

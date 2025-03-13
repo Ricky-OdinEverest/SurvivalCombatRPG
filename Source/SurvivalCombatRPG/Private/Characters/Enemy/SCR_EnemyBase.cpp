@@ -4,6 +4,7 @@
 #include "Characters/Enemy/SCR_EnemyBase.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "AbilitySystem/SCR_AttributeSet.h"
+#include "SurvivalCombatRPG/SurvivalCombatRPG.h"
 
 ASCR_EnemyBase::ASCR_EnemyBase()
 {
@@ -16,6 +17,18 @@ ASCR_EnemyBase::ASCR_EnemyBase()
 
 	AttributeSet = CreateDefaultSubobject<USCR_AttributeSet>("AttributeSet");
 	
+}
+
+void ASCR_EnemyBase::HighlightActor()
+{
+	GetMesh()->SetRenderCustomDepth(true);
+	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+	
+}
+
+void ASCR_EnemyBase::UnHighlightActor()
+{
+	GetMesh()->SetRenderCustomDepth(false);
 }
 
 int32 ASCR_EnemyBase::GetPlayerLevel()

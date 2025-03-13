@@ -28,6 +28,11 @@ public:
 
 protected:
 	
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName SpellSocketName;
+ 
+	virtual FVector GetCombatSocketLocation() override;
+	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	

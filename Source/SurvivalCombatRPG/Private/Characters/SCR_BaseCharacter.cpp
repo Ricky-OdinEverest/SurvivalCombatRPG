@@ -4,6 +4,8 @@
 #include "Characters/SCR_BaseCharacter.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "SurvivalCombatRPG/SurvivalCombatRPG.h"
 
 // Sets default values
 ASCR_BaseCharacter::ASCR_BaseCharacter()
@@ -12,6 +14,11 @@ ASCR_BaseCharacter::ASCR_BaseCharacter()
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	GetMesh()->SetGenerateOverlapEvents(true);
+
 	GetMesh()->bReceivesDecals = false;
 
 }
@@ -19,6 +26,11 @@ ASCR_BaseCharacter::ASCR_BaseCharacter()
 UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+FVector ASCR_BaseCharacter::GetCombatSocketLocation()
+{
+	return GetMesh()->GetSocketLocation(SpellSocketName);
 }
 
 void ASCR_BaseCharacter::InitAbilityActorInfo()

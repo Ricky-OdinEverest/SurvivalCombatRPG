@@ -4,18 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "Characters/SCR_BaseCharacter.h"
+#include "Interaction/EnemyInterface.h"
 #include "SCR_EnemyBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SURVIVALCOMBATRPG_API ASCR_EnemyBase : public ASCR_BaseCharacter
+class SURVIVALCOMBATRPG_API ASCR_EnemyBase : public ASCR_BaseCharacter,  public IEnemyInterface
 {
 	GENERATED_BODY()
 
 public:
 	ASCR_EnemyBase();
+
+	virtual void HighlightActor() override;
+	//UFUNCTION(BlueprintCallable)
+	virtual void UnHighlightActor() override;
+
 	
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel() override;

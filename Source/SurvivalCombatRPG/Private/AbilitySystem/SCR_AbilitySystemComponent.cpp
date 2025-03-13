@@ -7,7 +7,7 @@
 
 void USCR_AbilitySystemComponent::AbilityActorInfoSet()
 {
-	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &USCR_AbilitySystemComponent::EffectApplied);
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &USCR_AbilitySystemComponent::ClientEffectApplied);
 
 	const FSCR_GameplayTags& GameplayTags = FSCR_GameplayTags::Get();
 	GEngine->AddOnScreenDebugMessage(
@@ -66,7 +66,7 @@ void USCR_AbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& In
 
 }
 
-void USCR_AbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent,
+void USCR_AbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent,
                                                 const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
 {
 	FGameplayTagContainer TagContainer;
