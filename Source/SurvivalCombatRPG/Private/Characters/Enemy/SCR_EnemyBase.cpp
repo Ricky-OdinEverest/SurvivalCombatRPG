@@ -2,9 +2,11 @@
 
 
 #include "Characters/Enemy/SCR_EnemyBase.h"
+#include "Components/WidgetComponent.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "AbilitySystem/SCR_AttributeSet.h"
 #include "SurvivalCombatRPG/SurvivalCombatRPG.h"
+#include "UI/Widgets/SCR_UserWidget.h"
 
 ASCR_EnemyBase::ASCR_EnemyBase()
 {
@@ -17,6 +19,8 @@ ASCR_EnemyBase::ASCR_EnemyBase()
 
 	AttributeSet = CreateDefaultSubobject<USCR_AttributeSet>("AttributeSet");
 	
+	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
+	HealthBar->SetupAttachment(GetRootComponent());
 }
 
 void ASCR_EnemyBase::HighlightActor()
@@ -42,6 +46,30 @@ void ASCR_EnemyBase::BeginPlay()
 
 	InitAbilityActorInfo();
 
+ 
+	if (USCR_UserWidget* SCR_UserWidget = Cast<USCR_UserWidget>(HealthBar->GetUserWidgetObject()))
+	{
+		SCR_UserWidget->SetWidgetController(this);
+	}
+ 	
+	if (const USCR_AttributeSet* AS = Cast<USCR_AttributeSet>(AttributeSet))
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetBloodAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnBloodChanged.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetMaxBloodAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnMaxBloodhChanged.Broadcast(Data.NewValue);
+			}
+		);
+ 
+		OnBloodChanged.Broadcast(AS->GetBlood());
+		OnMaxBloodhChanged.Broadcast(AS->GetMaxBlood());
+	}
 }
 
 void ASCR_EnemyBase::InitAbilityActorInfo()
@@ -49,4 +77,5 @@ void ASCR_EnemyBase::InitAbilityActorInfo()
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<USCR_AbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+	InitializeDefaultAttributes();
 }

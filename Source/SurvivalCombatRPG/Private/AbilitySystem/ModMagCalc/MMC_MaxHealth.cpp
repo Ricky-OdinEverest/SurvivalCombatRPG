@@ -1,3 +1,4 @@
+/*
 // Copyright Ricky Everest
 
 
@@ -34,3 +35,4 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 
 	return 80.f + 2.5f * Vigor + 10.f * PlayerLevel;
 }
+*/

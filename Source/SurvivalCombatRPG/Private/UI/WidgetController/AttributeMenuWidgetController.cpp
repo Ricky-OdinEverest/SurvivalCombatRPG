@@ -13,12 +13,12 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
 	USCR_AttributeSet* AS = CastChecked<USCR_AttributeSet>(AttributeSet);
 	check(AttributeInfo);
-	for (auto& Pair : AS->TagsToAttributes)
+	for (FSCR_AttributeInfo& Info : AttributeInfo->AttributeInformation)
 	{
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
-		[this, Pair](const FOnAttributeChangeData& Data)
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Info.AttributeToGet).AddLambda(
+		[this, Info](const FOnAttributeChangeData& Data)
 		{
-			BroadcastAttributeInfo(Pair.Key, Pair.Value());
+			BroadcastAttributeInfo(Info.AttributeTag);
 		}
 	);
 	}
@@ -30,16 +30,26 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 
 	check(AttributeInfo);
 	
-	for (auto& Pair : AS->TagsToAttributes)
+	for (FSCR_AttributeInfo& Info : AttributeInfo->AttributeInformation)
 	{
-		BroadcastAttributeInfo(Pair.Key, Pair.Value());
+		BroadcastAttributeInfo(Info.AttributeTag);
 	}
 }
 
-void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag,
+void UAttributeMenuWidgetController::BroadcastAttributeInfoOrg(const FGameplayTag& AttributeTag,
 	const FGameplayAttribute& Attribute) const
 {
 	FSCR_AttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(AttributeTag);
 	Info.AttributeValue = Attribute.GetNumericValue(AttributeSet);
+	AttributeInfoDelegate.Broadcast(Info);
+}
+
+void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& Tag) const
+{
+//getting info from Data Asset Attribute Info based on Gameplay Tag
+	FSCR_AttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Tag);
+	//Set Hidden Value in AttributeInfo Data Asset
+	Info.AttributeValue = Info.AttributeToGet.GetNumericValue(AttributeSet);
+	//Broadcast for those who subscribe. IE the attribute menu widget in blueprint
 	AttributeInfoDelegate.Broadcast(Info);
 }

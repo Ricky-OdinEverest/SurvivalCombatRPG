@@ -8,6 +8,8 @@
 
 class UAttributeInfo;
 struct FAuraAttributeInfo;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSecondaryAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttributeInfoSignature, const FSCR_AttributeInfo&, Info);
 
 /**
@@ -27,12 +29,16 @@ public:
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Widget Data")
 	TObjectPtr<UAttributeInfo> AttributeInfo;
 
 	
 private:
 
-	void BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const;
+	//OriginalFunc
+	void BroadcastAttributeInfoOrg(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const;
+
+//Helper func to broadcast attributes alternative solution
+	void BroadcastAttributeInfo(const FGameplayTag& Tag) const;
 
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AttributeSet.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
 #include "AttributeInfo.generated.h"
@@ -23,6 +24,9 @@ struct FSCR_AttributeInfo
 
 	UPROPERTY(BlueprintReadOnly)
 	float AttributeValue = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayAttribute AttributeToGet;
 };
 
 /**
@@ -34,7 +38,12 @@ class SURVIVALCOMBATRPG_API UAttributeInfo : public UDataAsset
 	GENERATED_BODY()
 public:
 	FSCR_AttributeInfo FindAttributeInfoForTag(const FGameplayTag& AttributeTag, bool bLogNotFound = false) const;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+#if WITH_EDITOR
+	UFUNCTION(Category="Populate Attribute Info", CallInEditor)
+	void PopulateDataAsset();
+#endif
+	
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty="{AttributeName}"))
 	TArray<FSCR_AttributeInfo> AttributeInformation;
 };

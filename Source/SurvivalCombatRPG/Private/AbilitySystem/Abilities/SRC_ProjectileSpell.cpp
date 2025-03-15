@@ -3,6 +3,9 @@
 
 #include "AbilitySystem/Abilities/SRC_ProjectileSpell.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+ #include "AbilitySystemComponent.h"
+
 #include "Actor/SCR_Projectile.h"
  #include "Interaction/CombatInterface.h"
 
@@ -36,7 +39,9 @@ void USCR_ProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 			Cast<APawn>(GetAvatarActorFromActorInfo()),
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
  
-		//TODO: Give the Projectile a Gameplay Effect Spec for causing Damage.
+		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+		Projectile->DamageEffectSpecHandle = SpecHandle;
  		
 		Projectile->FinishSpawning(SpawnTransform);
 	}

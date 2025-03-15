@@ -3,6 +3,72 @@
 #include "SCR_GameplayTags.h"
 #include "GameplayTagsManager.h"
 
+//#define ADDNATIVETAG(AttributeType, AttributeName, Comment) \
+//	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attributes_##AttributeType##_##AttributeName, *FString((FString("Attributes.") + #AttributeType + FString(".")+#AttributeName)), Comment)
+
+// Alternative Solution
+#define ADDNATIVETAG(AttributeType, AttributeName, Comment) \
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attributes_##AttributeType##_##AttributeName, *FString(FString("Attributes.") + #AttributeType + FString(".") + #AttributeName), Comment)
+
+ADDNATIVETAG(Primary, Strength, "Increases physical Strength")
+ADDNATIVETAG(Primary, Dexterity, "Increase Skill ")
+ADDNATIVETAG(Primary, Toughness, "Damage Resistance and Knockout Resistance")
+ADDNATIVETAG(Primary, Athletics, "Governs Running Speed and Stamina")
+ADDNATIVETAG(Primary, Perception, "Governs Ranged Abilities and Awareness")
+ADDNATIVETAG(Primary, Intelligence, "Mana Capacity and Resistance")
+ADDNATIVETAG(Primary, Soul, "WildCard")
+
+
+ADDNATIVETAG(Secondary, MeleeAttack, "Max Bonk Capacity")
+ADDNATIVETAG(Secondary, MeleeSpeed, "Faster Swings")
+ADDNATIVETAG(Secondary, MaxCarryWeight, "Carry Weight")
+ADDNATIVETAG(Secondary, Stealth, "Ability To elude enemy perception")
+ADDNATIVETAG(Secondary, Armor, "Total Armored Resistance")
+ADDNATIVETAG(Secondary, ArmorPenetration, "Ability To Bypass Armor")
+ADDNATIVETAG(Secondary, Defense, "Ability To Actively Ward Off Incoming Damage ")
+ADDNATIVETAG(Secondary, DamageResistance, "Attacks Hurt Less")
+ADDNATIVETAG(Secondary, MagicResistance, "DamageResistance but magical")
+
+ADDNATIVETAG(Secondary, MaxStamina, "Modifies Max Stamina And Regeneration")
+ADDNATIVETAG(Secondary, StaminaRegeneration, "How Quickly you Regenerate Stamina")
+ADDNATIVETAG(Secondary, ProjectileAttackSpeed, "Draw and Reload Rate")
+ADDNATIVETAG(Secondary, ProjectileRange,"Damage Falloff" )
+ADDNATIVETAG(Secondary, Accuracy, "Reticle Size")
+ADDNATIVETAG(Secondary, Concentration, "Wild Effect Resistance")
+
+ADDNATIVETAG(Secondary, CriticalHitDamage, "CriticalHitDamage")
+ADDNATIVETAG(Secondary, CriticalHitChance, "CriticalHitChance")
+ADDNATIVETAG(Secondary, CriticalHitResistance, "CriticalHitResistance")
+ADDNATIVETAG(Secondary, ManaRegeneration, "ManaRegeneration")
+ADDNATIVETAG(Secondary, MaxMana, "MaxMana")
+
+
+ADDNATIVETAG(Secondary, MaxBlood, "MaxBlood")
+ADDNATIVETAG(Secondary, HealthRegeneration, "HealthRegeneration")
+ADDNATIVETAG(Secondary, BloodRegeneration, "BloodRegeneration")
+ADDNATIVETAG(Secondary, MaxHunger, "MaxHunger")
+ADDNATIVETAG(Secondary, MaxHeadHealth, "MaxHeadHealth")
+ADDNATIVETAG(Secondary, MaxChestHealth, "MaxChestHealth")
+ADDNATIVETAG(Secondary, MaxStomachHealth, "MaxStomachHealth")
+ADDNATIVETAG(Secondary, MaxRightArmHealth, "MaxRightArmHealth")
+ADDNATIVETAG(Secondary, MaxLeftArmHealth, "MaxLeftArmHealth")
+ADDNATIVETAG(Secondary, MaxRightLegHealth, "MaxRightLegHealth")
+ADDNATIVETAG(Secondary, MaxLeftLegHealth, "MaxLeftLegHealth")
+
+ADDNATIVETAG(Vital, Stamina, "Modifies Max Stamina And Regeneration")
+ADDNATIVETAG(Vital, Blood, "Blood")
+ADDNATIVETAG(Vital, Mana, "Blood")
+ADDNATIVETAG(Vital, Hunger, "Hunger")
+ADDNATIVETAG(Vital, HeadHealth, "HeadHealth")
+ADDNATIVETAG(Vital, ChestHealth, "ChestHealth")
+ADDNATIVETAG(Vital, StomachHealth, "StomachHealth")
+ADDNATIVETAG(Vital, RightArmHealth, "RightArmHealth")
+ADDNATIVETAG(Vital, LeftArmHealth, "LeftArmHealth")
+ADDNATIVETAG(Vital, RightLegHealth, "RightLegHealth")
+ADDNATIVETAG(Vital, LeftLegHealth, "LeftLegHealth")
+
+
+
 namespace SCR_GameplayTags
 {
 	/** Input Tags **/
@@ -17,82 +83,68 @@ FSCR_GameplayTags FSCR_GameplayTags::GameplayTags;
 
 void FSCR_GameplayTags::InitializeNativeGameplayTags()
 {
+#define ADDTAGTO_CONTAINER(AttributeType, AttributeName) GameplayTags.SCR_TagsContainer.AddTag(Attributes_##AttributeType##_##AttributeName);
 /*
 	 * Primary Attributes
 	 */
-	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Strength"),
-		FString("Increases physical damage")
-		);
+	ADDTAGTO_CONTAINER(Primary, Strength)
+	ADDTAGTO_CONTAINER(Primary, Dexterity)
+	ADDTAGTO_CONTAINER(Primary, Toughness)
+	ADDTAGTO_CONTAINER(Primary, Athletics)
+	ADDTAGTO_CONTAINER(Primary, Perception)
+	ADDTAGTO_CONTAINER(Primary, Intelligence)
+	ADDTAGTO_CONTAINER(Primary, Soul)
 
-	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Intelligence"),
-		FString("Increases magical damage")
-		);
 
-	GameplayTags.Attributes_Primary_Resilience = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Resilience"),
-		FString("Increases Armor and Armor Penetration")
-		);
+	ADDTAGTO_CONTAINER(Secondary, MeleeAttack)
+	ADDTAGTO_CONTAINER(Secondary, MeleeSpeed)
+	ADDTAGTO_CONTAINER(Secondary, MaxCarryWeight)
+	ADDTAGTO_CONTAINER(Secondary, Stealth)
+	ADDTAGTO_CONTAINER(Secondary, Armor)
+	ADDTAGTO_CONTAINER(Secondary, ArmorPenetration)
+	ADDTAGTO_CONTAINER(Secondary, Defense)
+	ADDTAGTO_CONTAINER(Secondary, DamageResistance)
+	ADDTAGTO_CONTAINER(Secondary, MagicResistance)
 
-	GameplayTags.Attributes_Primary_Vigor = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Vigor"),
-		FString("Increases Health")
-		);
+	ADDTAGTO_CONTAINER(Secondary, MaxStamina)
+	ADDTAGTO_CONTAINER(Secondary, StaminaRegeneration)
+	ADDTAGTO_CONTAINER(Secondary, ProjectileAttackSpeed)
+	ADDTAGTO_CONTAINER(Secondary, ProjectileRange)
+	ADDTAGTO_CONTAINER(Secondary, Accuracy)
+	ADDTAGTO_CONTAINER(Secondary, Concentration)
 
-	/*
-	 * Secondary Attributes
-	 */
+	ADDTAGTO_CONTAINER(Secondary, CriticalHitDamage)
+	ADDTAGTO_CONTAINER(Secondary, CriticalHitChance)
+	ADDTAGTO_CONTAINER(Secondary, CriticalHitResistance)
+	ADDTAGTO_CONTAINER(Secondary, ManaRegeneration)
+	ADDTAGTO_CONTAINER(Secondary, HealthRegeneration)
+	ADDTAGTO_CONTAINER(Secondary, BloodRegeneration)
+
+	ADDTAGTO_CONTAINER(Secondary, MaxMana)
+
 	
-	GameplayTags.Attributes_Secondary_Armor = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.Armor"),
-		FString("Reduces damage taken, improves Block Chance")
-		);
+	ADDTAGTO_CONTAINER(Secondary, MaxBlood)
+	ADDTAGTO_CONTAINER(Secondary, MaxHunger)
+	ADDTAGTO_CONTAINER(Secondary, MaxHeadHealth)
+	ADDTAGTO_CONTAINER(Secondary, MaxChestHealth)
+	ADDTAGTO_CONTAINER(Secondary, MaxStomachHealth)
+	ADDTAGTO_CONTAINER(Secondary, MaxRightArmHealth)
+	ADDTAGTO_CONTAINER(Secondary, MaxLeftArmHealth)
+	ADDTAGTO_CONTAINER(Secondary, MaxRightLegHealth)
+	ADDTAGTO_CONTAINER(Secondary, MaxLeftLegHealth)
 
-	GameplayTags.Attributes_Secondary_ArmorPenetration = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.ArmorPenetration"),
-		FString("Ignores Percentage of enemy Armor, increases Critical Hit Chance")
-		);
-
-	GameplayTags.Attributes_Secondary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.BlockChance"),
-		FString("Chance to cut incoming damage in half")
-		);
-
-	GameplayTags.Attributes_Secondary_CriticalHitChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.CriticalHitChance"),
-		FString("Chance to double damage plus critical hit bonus")
-		);
-
-	GameplayTags.Attributes_Secondary_CriticalHitDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.CriticalHitDamage"),
-		FString("Bonus damage added when a critical hit is scored")
-		);
-
-	GameplayTags.Attributes_Secondary_CriticalHitResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.CriticalHitResistance"),
-		FString("Reduces Critical Hit Chance of attacking enemies")
-		);
-
-	GameplayTags.Attributes_Secondary_HealthRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.HealthRegeneration"),
-		FString("Amount of Health regenerated every 1 second")
-		);
-
-	GameplayTags.Attributes_Secondary_ManaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.ManaRegeneration"),
-		FString("Amount of Mana regenerated every 1 second")
-		);
-
-	GameplayTags.Attributes_Secondary_MaxHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.MaxHealth"),
-		FString("Maximum amount of Health obtainable")
-		);
-
-	GameplayTags.Attributes_Secondary_MaxMana = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Secondary.MaxMana"),
-		FString("Maximum amount of Mana obtainable")
-		);
+	ADDTAGTO_CONTAINER(Vital, Blood)
+	ADDTAGTO_CONTAINER(Vital, Hunger)
+	ADDTAGTO_CONTAINER(Vital, Stamina)
+	ADDTAGTO_CONTAINER(Vital, Mana)
+	ADDTAGTO_CONTAINER(Vital, HeadHealth)
+	ADDTAGTO_CONTAINER(Vital, ChestHealth)
+	ADDTAGTO_CONTAINER(Vital, StomachHealth)
+	ADDTAGTO_CONTAINER(Vital, RightArmHealth)
+	ADDTAGTO_CONTAINER(Vital, LeftArmHealth)
+	ADDTAGTO_CONTAINER(Vital, RightLegHealth)
+	ADDTAGTO_CONTAINER(Vital, LeftLegHealth)
+		
 
 	/*
   * Input Tags

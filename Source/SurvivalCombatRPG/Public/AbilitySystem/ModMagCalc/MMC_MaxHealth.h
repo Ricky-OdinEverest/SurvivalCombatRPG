@@ -1,4 +1,4 @@
-// Copyright Ricky Everest
+/*// Copyright Ricky Everest
 
 #pragma once
 
@@ -8,7 +8,7 @@
 
 /**
  * 
- */
+ #1#
 UCLASS()
 class SURVIVALCOMBATRPG_API UMMC_MaxHealth : public UGameplayModMagnitudeCalculation
 {
@@ -22,4 +22,4 @@ private:
 private:
 
 	FGameplayEffectAttributeCaptureDefinition VigorDef;
-};
+};*/
