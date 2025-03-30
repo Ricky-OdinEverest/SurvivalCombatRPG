@@ -7,6 +7,7 @@
 
 void USCR_CharacterAnimInstance::NativeInitializeAnimation()
 {
+
 	OwningCharacter = Cast<ASCR_BaseCharacter>(TryGetPawnOwner());
 	if (OwningCharacter)
 	{
@@ -16,6 +17,15 @@ void USCR_CharacterAnimInstance::NativeInitializeAnimation()
 
 void USCR_CharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 {
+	// If OwningCharacter is not set (perhaps due to replication timing), try to set it again.
+	if (!OwningCharacter)
+	{
+		OwningCharacter = Cast<ASCR_BaseCharacter>(TryGetPawnOwner());
+		if (OwningCharacter)
+		{
+			OwningMovementComponent = OwningCharacter->GetCharacterMovement();
+		}
+	}
 	if (!OwningCharacter || !OwningMovementComponent)
 	{
 		return;

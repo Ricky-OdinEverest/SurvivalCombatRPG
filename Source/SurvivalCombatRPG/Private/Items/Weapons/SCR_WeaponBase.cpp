@@ -7,6 +7,10 @@
 // Sets default values
 ASCR_WeaponBase::ASCR_WeaponBase()
 {
+	// Set replication on the weapon actor
+	bReplicates = true;
+	AActor::SetReplicateMovement(true);
+	
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 

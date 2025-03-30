@@ -35,7 +35,7 @@ void ASCR_PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Debug::Print(TEXT("Working"));
+	//Debug::Print(TEXT("Working"));
 
 	checkf(InputConfig,TEXT("Forgot to assign a valid data asset as input config"));
 	

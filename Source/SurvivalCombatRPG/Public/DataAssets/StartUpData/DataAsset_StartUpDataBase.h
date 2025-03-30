@@ -6,7 +6,7 @@
 #include "Engine/DataAsset.h"
 #include "DataAsset_StartUpDataBase.generated.h"
 
-class USRC_GameplayAbility;
+class USCR_GameplayAbility;
 class USCR_AbilitySystemComponent;
 
 /**
@@ -21,10 +21,10 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
-	TArray< TSubclassOf < USRC_GameplayAbility > > ActivateOnGivenAbilities;
+	TArray< TSubclassOf < USCR_GameplayAbility > > ActivateOnGivenAbilities;
 
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
-	TArray< TSubclassOf < USRC_GameplayAbility > > ReactiveAbilities;
+	TArray< TSubclassOf < USCR_GameplayAbility > > ReactiveAbilities;
 
-	void GrantAbilities(const TArray< TSubclassOf < USRC_GameplayAbility > >& InAbilitiesToGive,USCR_AbilitySystemComponent* InASCToGive,int32 ApplyLevel = 1);
+	void GrantAbilities(const TArray< TSubclassOf < USCR_GameplayAbility > >& InAbilitiesToGive,USCR_AbilitySystemComponent* InASCToGive,int32 ApplyLevel = 1);
 };

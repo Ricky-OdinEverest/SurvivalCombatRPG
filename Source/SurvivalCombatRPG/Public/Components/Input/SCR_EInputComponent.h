@@ -24,7 +24,8 @@ public:
 	template<class UserObject,typename CallbackFunc>
  void BindNativeInputAction(const USCR_InputConfig* InInputConfig,const FGameplayTag& InInputTag,ETriggerEvent TriggerEvent,UserObject* ContextObject,CallbackFunc Func);
 	
-
+	template<class UserObject,typename CallbackFunc>
+	 void BindAbilityInputAction(const USCR_InputConfig* InInputConfig,UserObject* ContextObject,CallbackFunc InputPressedFunc,CallbackFunc InputRelasedFunc);
 
 };
 
@@ -70,5 +71,20 @@ void USCR_EInputComponent::BindNativeInputAction(const USCR_InputConfig* InInput
 	if (UInputAction* FoundAction = InInputConfig->FindNativeInputActionByTag(InInputTag))
 	{
 		BindAction(FoundAction,TriggerEvent,ContextObject,Func);
+	}
+}
+
+template <class UserObject, typename CallbackFunc>
+void USCR_EInputComponent::BindAbilityInputAction(const USCR_InputConfig* InInputConfig, UserObject* ContextObject,
+	CallbackFunc InputPressedFunc, CallbackFunc InputRelasedFunc)
+{
+	checkf(InInputConfig,TEXT("Input config data asset is null,can not proceed with binding"));
+ 
+	for (const FSCR_InputActionConfig& AbilityInputActionConfig : InInputConfig->AbilityInputActions)
+	{
+		if(!AbilityInputActionConfig.IsValid()) continue;
+ 
+		BindAction(AbilityInputActionConfig.InputAction,ETriggerEvent::Started,ContextObject,InputPressedFunc,AbilityInputActionConfig.InputTag);
+		BindAction(AbilityInputActionConfig.InputAction,ETriggerEvent::Completed,ContextObject,InputRelasedFunc,AbilityInputActionConfig.InputTag);
 	}
 }

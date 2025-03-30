@@ -3,10 +3,10 @@
 
 #include "DataAssets/StartUpData/DataAsset_StartUpDataBase.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
-#include "AbilitySystem/Abilities/SRC_GameplayAbility.h"
+#include "AbilitySystem/Abilities/SCR_GameplayAbility.h"
 
 void UDataAsset_StartUpDataBase::GiveToAbilitySystemComponent(USCR_AbilitySystemComponent* InASCToGive,
-	int32 ApplyLevel)
+                                                              int32 ApplyLevel)
 {
 	check(InASCToGive);
 
@@ -14,7 +14,7 @@ void UDataAsset_StartUpDataBase::GiveToAbilitySystemComponent(USCR_AbilitySystem
 	GrantAbilities(ReactiveAbilities,InASCToGive,ApplyLevel); 
 }
 
-void UDataAsset_StartUpDataBase::GrantAbilities(const TArray<TSubclassOf<USRC_GameplayAbility>>& InAbilitiesToGive,
+void UDataAsset_StartUpDataBase::GrantAbilities(const TArray<TSubclassOf<USCR_GameplayAbility>>& InAbilitiesToGive,
 	USCR_AbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
 
@@ -23,7 +23,7 @@ void UDataAsset_StartUpDataBase::GrantAbilities(const TArray<TSubclassOf<USRC_Ga
 		return;
 	}
 
-	for (const TSubclassOf<USRC_GameplayAbility>& Ability : InAbilitiesToGive)
+	for (const TSubclassOf<USCR_GameplayAbility>& Ability : InAbilitiesToGive)
 	{
 		if(!Ability) continue;
 

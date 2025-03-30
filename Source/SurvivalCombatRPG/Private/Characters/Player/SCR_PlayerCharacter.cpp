@@ -9,6 +9,7 @@
 #include  "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "SCR_DebugHelper.h"
 #include "Characters/Player/SCR_PlayerState.h"
+#include "Components/Combat/PlayerCombatComponent.h"
 #include "Controllers/SCR_PlayerController.h"
 #include "DataAssets/StartUpData/DataAsset_PlayerStartUpData.h"
 #include "UI/HUD/SCR_HUD.h"
@@ -32,7 +33,7 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	Weapon = CreateDefaultSubobject<UStaticMeshComponent>("Weapon");
-	Weapon->SetupAttachment(GetMesh(), FName(TEXT("katana_Targer01")));
+	Weapon->SetupAttachment(GetMesh(), FName(TEXT("Weapon_r")));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	Scabbard = CreateDefaultSubobject<UStaticMeshComponent>("Scabbard");
@@ -44,6 +45,8 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f,500.f,0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+
+	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
 }
 
 int32 ASCR_PlayerCharacter::GetPlayerLevel()
@@ -56,7 +59,7 @@ int32 ASCR_PlayerCharacter::GetPlayerLevel()
 void ASCR_PlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	Debug::Print(TEXT("Working"));
+	//Debug::Print(TEXT("Working"));
 }
 
 void ASCR_PlayerCharacter::PossessedBy(AController* NewController)
@@ -97,7 +100,7 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 
 	InitializeDefaultAttributes();
 
-	// So Far Unable To Get This to Work with the current pointer structure
+	// works if I cast to pointer type istead of t object pointer
 	/*if(AbilitySystemComponent)
 	{
 		ensureMsgf(!CharacterStartUpData.IsNull(),TEXT("Forgot to assign start up data to %s"),*GetName());
@@ -107,7 +110,7 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 	{
 		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
 		{
-			LoadedData->GiveToAbilitySystemComponent(AbilitySystemComponent);
+			LoadedData->GiveToAbilitySystemComponent(static_cast<USCR_AbilitySystemComponent*>(AbilitySystemComponent));
 		}
 	}*/
 }

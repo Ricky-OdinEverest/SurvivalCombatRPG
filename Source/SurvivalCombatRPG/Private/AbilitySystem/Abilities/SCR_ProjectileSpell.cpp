@@ -1,7 +1,7 @@
 // Copyright Ricky Everest
 
 
-#include "AbilitySystem/Abilities/SRC_ProjectileSpell.h"
+#include "AbilitySystem/Abilities/SCR_ProjectileSpell.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
  #include "AbilitySystemComponent.h"

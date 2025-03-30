@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Abilities/SRC_GameplayAbility.h"
-#include "SRC_ProjectileSpell.generated.h"
+#include "AbilitySystem/Abilities/SCR_GameplayAbility.h"
+#include "SCR_ProjectileSpell.generated.h"
 
 class ASCR_Projectile;
 class UGameplayEffect;
@@ -12,7 +12,7 @@ class UGameplayEffect;
  * 
  */
 UCLASS()
-class SURVIVALCOMBATRPG_API USCR_ProjectileSpell : public USRC_GameplayAbility
+class SURVIVALCOMBATRPG_API USCR_ProjectileSpell : public USCR_GameplayAbility
 {
 	GENERATED_BODY()
 	

@@ -69,12 +69,22 @@ ADDNATIVETAG(Vital, LeftLegHealth, "LeftLegHealth")
 
 
 
+
+
 namespace SCR_GameplayTags
 {
 	/** Input Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move,"InputTag.Move")
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look,"InputTag.Look")
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Jump,"InputTag.Jump")
+	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Sword,"Player.Weapon.Sword");
+
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipSword, "InputTag.EquipSword");
+    UE_DEFINE_GAMEPLAY_TAG(InputTag_UnEquipSword, "InputTag.UnEquipSword");
+
+	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_EquipSword, "Event.Weapon.Melee.EquipSword");
+	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_UnEquipSword, "Event.Weapon.Melee.UnEquipSword");
+	
 }
 
 
@@ -149,6 +159,9 @@ void FSCR_GameplayTags::InitializeNativeGameplayTags()
 	/*
   * Input Tags
   */
+	
+	/** Player tags **/
+	
  	
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("InputTag.LMB"),

@@ -3,7 +3,7 @@
 
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "SCR_GameplayTags.h"
-#include "AbilitySystem/Abilities/SRC_GameplayAbility.h"
+#include "AbilitySystem/Abilities/SCR_GameplayAbility.h"
 
 void USCR_AbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -14,10 +14,14 @@ void USCR_AbilitySystemComponent::AbilityActorInfoSet()
 
 void USCR_AbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
 {
+	if (!GetOwner() || !GetOwner()->HasAuthority())
+	{
+		return;
+	}
 	for (TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
-		if (const USRC_GameplayAbility* SCR_Ability = Cast<USRC_GameplayAbility>(AbilitySpec.Ability))
+		if (const USCR_GameplayAbility* SCR_Ability = Cast<USCR_GameplayAbility>(AbilitySpec.Ability))
 		{
 			AbilitySpec.DynamicAbilityTags.AddTag(SCR_Ability->StartupInputTag);
 			GiveAbility(AbilitySpec);
