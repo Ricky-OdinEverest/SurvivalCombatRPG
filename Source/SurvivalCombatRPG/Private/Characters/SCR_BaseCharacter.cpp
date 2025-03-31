@@ -34,6 +34,12 @@ FVector ASCR_BaseCharacter::GetCombatSocketLocation()
 	return GetMesh()->GetSocketLocation(SpellSocketName);
 }
 
+FVector ASCR_BaseCharacter::GetRightHandSwordSocketLocation()
+{
+	return GetMesh()->GetSocketLocation("Weapon_R");
+	
+}
+
 void ASCR_BaseCharacter::InitAbilityActorInfo()
 {
 }

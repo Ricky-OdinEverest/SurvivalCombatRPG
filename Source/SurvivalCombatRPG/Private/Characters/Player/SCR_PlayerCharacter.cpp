@@ -32,9 +32,9 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 	FollowCamera->SetupAttachment(CameraBoom,USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-	Weapon = CreateDefaultSubobject<UStaticMeshComponent>("Weapon");
+	/*Weapon = CreateDefaultSubobject<UStaticMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName(TEXT("Weapon_r")));
-	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);*/
 
 	Scabbard = CreateDefaultSubobject<UStaticMeshComponent>("Scabbard");
 	Scabbard->SetupAttachment(GetMesh(), FName(TEXT("Scabbard_Target01")));
@@ -47,6 +47,7 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
 	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
+	PlayerCombatComponent ->SetIsReplicated(true);
 }
 
 int32 ASCR_PlayerCharacter::GetPlayerLevel()
@@ -54,6 +55,15 @@ int32 ASCR_PlayerCharacter::GetPlayerLevel()
 	const ASCR_PlayerState* AuraPlayerState = GetPlayerState<ASCR_PlayerState>();
 	check(AuraPlayerState);
 	return AuraPlayerState->GetPlayerLevel();
+}
+
+void ASCR_PlayerCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	if (PlayerCombatComponent)
+	{
+		PlayerCombatComponent->PlayerCharacter = this;
+	}
 }
 
 void ASCR_PlayerCharacter::BeginPlay()

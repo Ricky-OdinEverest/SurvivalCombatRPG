@@ -13,3 +13,8 @@ FVector ICombatInterface::GetCombatSocketLocation()
 {
 	return FVector();
 }
+
+FVector ICombatInterface::GetRightHandSwordSocketLocation()
+{
+	return FVector();
+}

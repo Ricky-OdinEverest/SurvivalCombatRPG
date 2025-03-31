@@ -17,7 +17,17 @@ class SURVIVALCOMBATRPG_API UPlayerCombatComponent : public UPawnCombatComponent
 	GENERATED_BODY()
 	
 public:
+	// For now give Player Character class access to everything on this combat component
+	friend class ASCR_PlayerCharacter;
+	
+	
 	UFUNCTION(BlueprintCallable, Category = "Player|Combat")
 	ASCR_PlayerWeaponBase* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
+
+
+private:
+	class ASCR_PlayerCharacter* PlayerCharacter;
 	
 };
+
+

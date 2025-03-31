@@ -39,20 +39,27 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player|Combat")
 	ASCR_WeaponBase* GetCharacterCurrentEquippedWeapon() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Debug")
+	void PrintWeaponMap() const;
+
 protected:
 	// Transient TMap built locally for quick lookup.
 	TMap<FGameplayTag, ASCR_WeaponBase*> CharacterCarriedWeaponMap;
+
+	
 
 	// Replicated array of weapon entries.
 	UPROPERTY(ReplicatedUsing = OnRep_WeaponEntries)
 	TArray<FWeaponEntry> ReplicatedWeaponEntries;
 
 	// Replicated tag for currently equipped weapon.
-	UPROPERTY(BlueprintReadWrite, Category = "Player|Combat")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_WeaponEntries,  Category = "Player|Combat")
 	FGameplayTag CurrentEquippedWeaponTag;
 
 	UFUNCTION()
 	void OnRep_WeaponEntries();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+
 };

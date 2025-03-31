@@ -33,6 +33,8 @@ protected:
 	FName SpellSocketName;
  
 	virtual FVector GetCombatSocketLocation() override;
+
+	virtual FVector GetRightHandSwordSocketLocation() override;
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
