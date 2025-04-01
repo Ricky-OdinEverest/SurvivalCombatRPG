@@ -80,6 +80,21 @@ void ASCR_PlayerCharacter::PossessedBy(AController* NewController)
 	InitAbilityActorInfo();
 	AddCharacterAbilities();
 	
+	// works if I cast to pointer type istead of t object pointer
+	if(AbilitySystemComponent)
+	{
+		ensureMsgf(!CharacterStartUpData.IsNull(),TEXT("Forgot to assign start up data to %s"),*GetName());
+	}
+
+	if (!CharacterStartUpData.IsNull())
+	{
+		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(static_cast<USCR_AbilitySystemComponent*>(AbilitySystemComponent));
+		}
+	}
+	
+	
 }
 
 void ASCR_PlayerCharacter::OnRep_PlayerState()
@@ -109,18 +124,5 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 	}
 
 	InitializeDefaultAttributes();
-
-	// works if I cast to pointer type istead of t object pointer
-	/*if(AbilitySystemComponent)
-	{
-		ensureMsgf(!CharacterStartUpData.IsNull(),TEXT("Forgot to assign start up data to %s"),*GetName());
-	}
-
-	if (!CharacterStartUpData.IsNull())
-	{
-		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
-		{
-			LoadedData->GiveToAbilitySystemComponent(static_cast<USCR_AbilitySystemComponent*>(AbilitySystemComponent));
-		}
-	}*/
+	
 }

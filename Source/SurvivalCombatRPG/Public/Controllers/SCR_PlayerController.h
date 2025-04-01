@@ -73,6 +73,9 @@ private:
  
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
+
+	UPROPERTY(EditAnywhere, Category = "MouseControl")
+	bool bUsingMouse = false;
 	
 	void AutoRun();
 

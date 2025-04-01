@@ -129,6 +129,8 @@ void ASCR_PlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
 	if (InputTag.MatchesTagExact(FSCR_GameplayTags::Get().InputTag_LMB))
 	{
+		// temp shutting down LMB Functions
+		if (!bUsingMouse) return;
 		bTargeting = ThisActor ? true : false;
 		bAutoRunning = false;
 	}
@@ -145,6 +147,10 @@ void ASCR_PlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		}
 		
 	}
+
+	//take away AI move
+	else if (!bUsingMouse) return;
+	
 	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 	
 	if (!bTargeting && !bShiftKeyDown)
@@ -184,6 +190,9 @@ void ASCR_PlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		}
 		
 	}
+	// temp take away AI move
+
+	else if (!bUsingMouse) return;
  
 	if (bTargeting || bShiftKeyDown)
 	{

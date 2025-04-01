@@ -41,9 +41,9 @@ protected:
 	
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
-	
-	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
-	//TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;
+	//Wwarrior Properties to start with
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
+	TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;
 
 	virtual void InitAbilityActorInfo();
 	
@@ -61,7 +61,7 @@ protected:
 
 	void AddCharacterAbilities();
 private:
-
+//Where all of my abilities are currently stored 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };

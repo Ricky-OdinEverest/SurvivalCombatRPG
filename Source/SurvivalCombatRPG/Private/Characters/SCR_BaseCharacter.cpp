@@ -63,6 +63,9 @@ void ASCR_BaseCharacter::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 }
 
+// In Aura Character Startup abilities live in an Array on the Player Character.
+// It seems that if I want to expand the functionility to allow weapons to grant abilities I have to use the data asset setup from warrior gas
+
 void ASCR_BaseCharacter::AddCharacterAbilities()
 {
 	USCR_AbilitySystemComponent* SCR_ASC = CastChecked<USCR_AbilitySystemComponent>(AbilitySystemComponent);
