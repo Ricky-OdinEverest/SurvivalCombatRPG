@@ -77,18 +77,30 @@ namespace SCR_GameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move,"InputTag.Move")
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look,"InputTag.Look")
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Jump,"InputTag.Jump")
+	
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipSword, "InputTag.EquipSword");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnEquipSword, "InputTag.UnEquipSword");
+
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_LightAttack_Sword,"InputTag.LightAttack.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_HeavyAttack_Sword,"InputTag.HeavyAttack.Sword");
 
 	/** Player Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Sword,"Player.Weapon.Sword");
 
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipSword, "InputTag.EquipSword");
-    UE_DEFINE_GAMEPLAY_TAG(InputTag_UnEquipSword, "InputTag.UnEquipSword");
+	
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Heavy_Sword,"Player.Ability.Attack.Heavy.Sword");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Light_Sword,"Player.Ability.Attack.Light.Sword");
+	
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Sword, "Player.Ability.Equip.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_UnEquip_Sword, "Player.Ability.UnEquip.Sword");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_EquipSword, "Event.Weapon.Melee.EquipSword");
 	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_UnEquipSword, "Event.Weapon.Melee.UnEquipSword");
+	
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
+
+
 	
 }
 

@@ -6,6 +6,7 @@
 #include "Characters/Enemy/SCR_EnemyBase.h"
 #include "SCR_Enemy.generated.h"
 
+class USCR_EnemyCombatComponent;
 /**
  * 
  */
@@ -14,6 +15,19 @@ class SURVIVALCOMBATRPG_API ASCR_Enemy : public ASCR_EnemyBase
 {
 	GENERATED_BODY()
 
+	ASCR_Enemy();
+protected:
+
+	//~ Begin APawn Interface.
+	virtual void PossessedBy(AController* NewController) override;
+	//~ End APawn Interface
 	
-	//virtual void InitAbilityActorInfo() override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	USCR_EnemyCombatComponent* EnemyCombatComponent;
+
+private:
+	void InitEnemyStartUpData() const;
+ 
+public:
+	FORCEINLINE USCR_EnemyCombatComponent* GetEnemyCombatComponent() const { return EnemyCombatComponent;}
 };

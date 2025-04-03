@@ -65,6 +65,15 @@ void ASCR_PlayerController::SetupInputComponent()
 
 }
 
+UEnhancedInputLocalPlayerSubsystem* ASCR_PlayerController::GetEnhancedInputSubsystem() const
+{
+	if (ULocalPlayer* LocalPlayer = GetLocalPlayer())
+	{
+		return LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+	}
+	return nullptr;
+}
+
 
 USCR_AbilitySystemComponent* ASCR_PlayerController::GetASC()
 {

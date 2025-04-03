@@ -28,6 +28,11 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+
+	
+	// Blueprint callable getter for the Enhanced Input Local Player Subsystem
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	UEnhancedInputLocalPlayerSubsystem* GetEnhancedInputSubsystem() const;
 private:
 
 

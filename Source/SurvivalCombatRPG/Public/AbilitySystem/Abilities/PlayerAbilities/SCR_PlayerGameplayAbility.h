@@ -18,13 +18,13 @@ class SURVIVALCOMBATRPG_API USCR_PlayerGameplayAbility : public USCR_GameplayAbi
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintPure, Category = "Warrior|Ability")
+	UFUNCTION(BlueprintPure, Category = "SCR_Player|Ability")
 	ASCR_PlayerCharacter* GetPlayerCharacterFromActorInfo();
  
-	UFUNCTION(BlueprintPure, Category = "Warrior|Ability")
+	UFUNCTION(BlueprintPure, Category = "SCR_Player|Ability")
 	ASCR_PlayerController* GetPlayerControllerFromActorInfo();
  
-	UFUNCTION(BlueprintPure, Category = "Warrior|Ability")
+	UFUNCTION(BlueprintPure, Category = "SCR_Player|Ability")
 	UPlayerCombatComponent* GetPlayerCombatComponentFromActorInfo();
  
 private:

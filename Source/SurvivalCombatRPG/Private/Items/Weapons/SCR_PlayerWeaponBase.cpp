@@ -17,3 +17,13 @@ void ASCR_PlayerWeaponBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	
 	DOREPLIFETIME(ASCR_PlayerWeaponBase, PlayerWeaponData);
 }
+
+void ASCR_PlayerWeaponBase::AssignGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& InSpecHandles)
+{
+	GrantedAbilitySpecHandles = InSpecHandles;
+}
+
+TArray<FGameplayAbilitySpecHandle> ASCR_PlayerWeaponBase::GetGrantedAbilitySpecHandles() const
+{
+	return GrantedAbilitySpecHandles;
+}

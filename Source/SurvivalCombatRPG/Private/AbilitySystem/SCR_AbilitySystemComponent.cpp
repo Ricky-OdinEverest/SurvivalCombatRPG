@@ -4,6 +4,7 @@
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "SCR_GameplayTags.h"
 #include "AbilitySystem/Abilities/SCR_GameplayAbility.h"
+#include "PlayerTypes/PlayerStructTypes.h"
 
 void USCR_AbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -64,8 +65,51 @@ void USCR_AbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& In
 
 }
 
+void USCR_AbilitySystemComponent::GrantPlayerWeaponAbilities(
+	const TArray<FSCR_PlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel,
+	TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
+{
+	if (InDefaultWeaponAbilities.IsEmpty())
+	{
+		return;
+	}
+
+	
+ 
+	for (const FSCR_PlayerAbilitySet& AbilitySet : InDefaultWeaponAbilities)
+	{
+		if(!AbilitySet.IsValid()) continue;
+ 
+		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
+		AbilitySpec.SourceObject = GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
+ 
+		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
+	}
+}
+
+void USCR_AbilitySystemComponent::RemovedGrantedPlayerWeaponAbilities(
+	TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)
+{
+	if (InSpecHandlesToRemove.IsEmpty())
+	{
+		return;
+	}
+ 
+	for (const FGameplayAbilitySpecHandle& SpecHandle : InSpecHandlesToRemove)
+	{
+		if (SpecHandle.IsValid())
+		{
+			ClearAbility(SpecHandle);
+		}
+	}
+ 
+	InSpecHandlesToRemove.Empty();
+}
+
 void USCR_AbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent,
-                                                const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
+                                                                     const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
 {
 	FGameplayTagContainer TagContainer;
 	EffectSpec.GetAllAssetTags(TagContainer);

@@ -7,39 +7,25 @@
 #include "AbilitySystem/Abilities/SCR_AbilityTypes.h" // Include the new header
 #include "SCR_EquipAbilityTask.generated.h"
 
-class ASCR_PlayerWeaponBase;
-class UPlayerCombatComponent;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWeaponDataSignature,
-	const FGameplayAbilityTargetDataHandle&, DataHandle);
-
+class UEnhancedInputLocalPlayerSubsystem;
 UCLASS()
-class SURVIVALCOMBATRPG_API USCR_EquipAbilityTask : public UAbilityTask
+class USCR_EquipAbilityTask : public UAbilityTask
 {
 	GENERATED_BODY()
-
 public:
-	UPROPERTY(BlueprintReadOnly, Category = "Ability Task|Output")
-	TObjectPtr<ASCR_PlayerWeaponBase> EquippedWeapon = nullptr;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Ability Task|Output")
-	TObjectPtr<UPlayerCombatComponent> OwningPCC = nullptr;
-
-	UFUNCTION(BlueprintCallable, Category="Ability|Tasks",
-		meta=(DisplayName="SCR_EquipAbilityTask",
-		HidePin="OwningAbility",
-		DefaultToSelf="OwningAbility",
-		BlueprintInternalUseOnly="true"))
-	static USCR_EquipAbilityTask* Create_EquippedWeaponData(UGameplayAbility* OwningAbility);
-
-	UPROPERTY(BlueprintAssignable)
-	FWeaponDataSignature OnWeaponData;
-
-protected:
+	
+	UFUNCTION(BlueprintCallable, Category = "Input", meta = (DisplayName = "SCR_WeaponSwitchMappingContext",HidePin = "OwningAbility", DefaultToSelf = "OwningAbility"))
+	static USCR_EquipAbilityTask* SwitchMappingContext(UGameplayAbility* OwningAbility, UInputMappingContext* NewMappingContext, int32 Priority = 1);
+	
 	virtual void Activate() override;
-	void SendWeaponData(ASCR_PlayerWeaponBase* InWeapon, UPlayerCombatComponent* InPCC);
-	void OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle, FGameplayTag ActivationTag);
-	virtual void OnDestroy(bool AbilityIsEnding) override;
+	
+	UFUNCTION(Client, Reliable)
+	void Client_SwitchMappingContext(UInputMappingContext* NewMappingContext, int32 InPriority);
+	
+private:
+	UPROPERTY()
+	UInputMappingContext* MappingContext;
+	
+	int32 Priority;
 };
-
-
