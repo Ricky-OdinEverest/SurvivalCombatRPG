@@ -28,6 +28,11 @@ USTRUCT(BlueprintType)
 struct FSCR_PlayerWeaponData
 {
 	GENERATED_BODY()
+
+	// Default constructor initializing the pointer to nullptr.
+	FSCR_PlayerWeaponData()
+		: WeaponInputMappingContext(nullptr)
+	{}
  
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	TSubclassOf<USCR_PlayerLinkedAnimLayer> WeaponAnimLayerToLink;

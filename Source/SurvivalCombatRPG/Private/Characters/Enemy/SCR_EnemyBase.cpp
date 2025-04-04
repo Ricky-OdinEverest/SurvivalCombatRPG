@@ -4,6 +4,7 @@
 #include "Characters/Enemy/SCR_EnemyBase.h"
 #include "Components/WidgetComponent.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
+#include "AbilitySystem/SCR_AbilitySystemLibrary.h"
 #include "AbilitySystem/SCR_AttributeSet.h"
 #include "SurvivalCombatRPG/SurvivalCombatRPG.h"
 #include "UI/Widgets/SCR_UserWidget.h"
@@ -78,4 +79,9 @@ void ASCR_EnemyBase::InitAbilityActorInfo()
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<USCR_AbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 	InitializeDefaultAttributes();
+}
+
+void ASCR_EnemyBase::InitializeDefaultAttributes() const
+{
+	USCR_AbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }

@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "SCR_GameModeBase.generated.h"
 
+class UCharacterClassInfo;
 /**
  * 
  */
@@ -14,4 +15,7 @@ class SURVIVALCOMBATRPG_API ASCR_GameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
+	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
 };
