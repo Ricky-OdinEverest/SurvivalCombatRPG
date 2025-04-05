@@ -15,8 +15,16 @@ public class SurvivalCombatRPG : ModuleRules
 			"EnhancedInput",
 			"GameplayTags",
 			"GameplayTasks",
-			"GameplayAbilities"
-			
+			"GameplayAbilities", // Mods After Specified in Ninja Bear Docs
+			/*"CommonUI",
+			"ModelViewViewModel",
+			"NinjaCombat",
+			"NinjaCombatCamera",
+			"NinjaCombatCore",
+			"NinjaCombatActorPool",
+			"NinjaCombatUI",
+			"StructUtils",
+			"UMG"*/
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {"NavigationSystem", "Niagara" });
