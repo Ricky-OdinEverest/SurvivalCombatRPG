@@ -295,6 +295,15 @@ public:
     ATTRIBUTE_ACCESSORS(USCR_AttributeSet, MaxLeftLegHealth);
 
 	
+	/*
+	 * Meta Attributes
+	 */
+ 
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(USCR_AttributeSet, IncomingDamage);
+
+	
  //=========================================================================
     // Replication Notification Functions
     //=========================================================================

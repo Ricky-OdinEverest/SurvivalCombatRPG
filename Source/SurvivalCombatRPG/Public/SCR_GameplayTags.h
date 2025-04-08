@@ -86,6 +86,8 @@
 
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
 
+	
+
 struct FSCR_GameplayTags
 {
 public:
@@ -100,8 +102,10 @@ public:
 		FGameplayTag InputTag_2;
 		FGameplayTag InputTag_3;
 		FGameplayTag InputTag_4;
+	
+		FGameplayTag Damage;
 
-protected:
+
 
 private:
 	static FSCR_GameplayTags GameplayTags;

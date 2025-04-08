@@ -192,6 +192,18 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
 	}
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingDamage();
+		SetIncomingDamage(0.f);
+		if (LocalIncomingDamage > 0.f)
+		{
+			const float NewHealth = GetBlood() - LocalIncomingDamage;
+			SetBlood(FMath::Clamp(NewHealth, 0.f, GetMaxBlood()));
+ 
+			const bool bFatal = NewHealth <= 0.f;
+		}
+	}
 }
 
 void USCR_AttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const

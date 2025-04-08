@@ -24,6 +24,11 @@ ASCR_Enemy::ASCR_Enemy()
 	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;
  
 	EnemyCombatComponent = CreateDefaultSubobject<USCR_EnemyCombatComponent>("EnemyCombatComponent");
+
+	OptionalWeapon = CreateDefaultSubobject<USkeletalMeshComponent>("OptionalWeapon");
+	
+	OptionalWeapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+	OptionalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ASCR_Enemy::PossessedBy(AController* NewController)

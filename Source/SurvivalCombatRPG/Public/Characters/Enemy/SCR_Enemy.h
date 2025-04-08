@@ -24,6 +24,9 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	USCR_EnemyCombatComponent* EnemyCombatComponent;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<USkeletalMeshComponent> OptionalWeapon;
 
 private:
 	void InitEnemyStartUpData() const;
