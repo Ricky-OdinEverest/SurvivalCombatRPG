@@ -2,10 +2,13 @@
 
 
 #include "Characters/Enemy/SCR_EnemyBase.h"
+
+#include "SCR_GameplayTags.h"
 #include "Components/WidgetComponent.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "AbilitySystem/SCR_AbilitySystemLibrary.h"
 #include "AbilitySystem/SCR_AttributeSet.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "SurvivalCombatRPG/SurvivalCombatRPG.h"
 #include "UI/Widgets/SCR_UserWidget.h"
 
@@ -41,10 +44,16 @@ int32 ASCR_EnemyBase::GetPlayerLevel()
 	return Level;
 }
 
+void ASCR_EnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+}
+
 void ASCR_EnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
-
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
 
  
@@ -66,6 +75,12 @@ void ASCR_EnemyBase::BeginPlay()
 			{
 				OnMaxBloodhChanged.Broadcast(Data.NewValue);
 			}
+		);
+
+				
+		AbilitySystemComponent->RegisterGameplayTagEvent(FSCR_GameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+			this,
+			&ASCR_EnemyBase::HitReactTagChanged
 		);
  
 		OnBloodChanged.Broadcast(AS->GetBlood());

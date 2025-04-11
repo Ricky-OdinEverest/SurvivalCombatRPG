@@ -15,7 +15,8 @@ public class SurvivalCombatRPG : ModuleRules
 			"EnhancedInput",
 			"GameplayTags",
 			"GameplayTasks",
-			"GameplayAbilities", // Mods After Specified in Ninja Bear Docs
+			"GameplayAbilities",
+			"AIModule"// Mods After Specified in Ninja Bear Docs
 			/*"CommonUI",
 			"ModelViewViewModel",
 			"NinjaCombat",

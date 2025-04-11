@@ -105,6 +105,7 @@ public:
 	
 		FGameplayTag Damage;
 
+		FGameplayTag Effects_HitReact;
 
 
 private:
@@ -121,6 +122,9 @@ namespace SCR_GameplayTags
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_UnEquipSword)
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LightAttack_Sword);
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_HeavyAttack_Sword);
+	
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Test);
+
 
 	/** Player Tags **/
 	
@@ -135,6 +139,8 @@ namespace SCR_GameplayTags
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Event_Weapon_Melee_UnEquipSword)
 
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher)
+
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Test);
 
 	/** Enemy Tags **/
 

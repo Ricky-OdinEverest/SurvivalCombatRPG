@@ -84,6 +84,9 @@ namespace SCR_GameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_LightAttack_Sword,"InputTag.LightAttack.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_HeavyAttack_Sword,"InputTag.HeavyAttack.Sword");
 
+	
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Test,"InputTag.Test");
+
 	/** Player Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Sword,"Player.Weapon.Sword");
 
@@ -94,11 +97,14 @@ namespace SCR_GameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Sword, "Player.Ability.Equip.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_UnEquip_Sword, "Player.Ability.UnEquip.Sword");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Test, "Player.Ability.Test");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_EquipSword, "Event.Weapon.Melee.EquipSword");
 	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_UnEquipSword, "Event.Weapon.Melee.UnEquipSword");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
+
 
 	
 	/** Enemy tags **/
@@ -219,5 +225,10 @@ void FSCR_GameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 	 FName("Damage"),
 	 FString("Damage")
+	 );
+	
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	 FName("Effects.HitReact"),
+	 FString("Tag granted when Hit Reacting")
 	 );
 }

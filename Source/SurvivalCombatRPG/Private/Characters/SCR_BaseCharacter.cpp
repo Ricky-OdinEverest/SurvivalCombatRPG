@@ -29,6 +29,11 @@ UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+UAnimMontage* ASCR_BaseCharacter::GetHitReactMontage_Implementation()
+{
+	return HitReactMontage;
+}
+
 FVector ASCR_BaseCharacter::GetCombatSocketLocation()
 {
 	return GetMesh()->GetSocketLocation(SpellSocketName);
