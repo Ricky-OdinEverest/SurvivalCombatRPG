@@ -24,6 +24,8 @@ public:
 	FSCR_PlayerWeaponData PlayerWeaponData;
 	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	
+
 
 	
 	UFUNCTION(BlueprintCallable)

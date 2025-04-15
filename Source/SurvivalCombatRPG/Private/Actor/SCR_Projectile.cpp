@@ -30,8 +30,8 @@ ASCR_Projectile::ASCR_Projectile()
 	Sphere->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
  
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovement");
-	ProjectileMovement->InitialSpeed = 550.f;
-	ProjectileMovement->MaxSpeed = 550.f;
+	ProjectileMovement->InitialSpeed = 700.f;
+	ProjectileMovement->MaxSpeed = 700.f;
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 
 }
@@ -49,9 +49,32 @@ void ASCR_Projectile::Destroyed()
 {
 	if (!bHit && !HasAuthority())
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		LoopingSoundComponent->Stop();
+		if (ImpactSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("ImpactSound is null in Destroyed()"));
+		}
+        
+		if (ImpactEffect)
+		{
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("ImpactEffect is null in Destroyed()"));
+		}
+        
+		if (LoopingSoundComponent)
+		{
+			LoopingSoundComponent->Stop();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("LoopingSoundComponent is null in Destroyed()"));
+		}
 	}
 	Super::Destroyed();
 	

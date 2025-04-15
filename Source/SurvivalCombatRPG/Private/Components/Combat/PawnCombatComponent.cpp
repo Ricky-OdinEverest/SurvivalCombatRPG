@@ -89,6 +89,16 @@ void UPawnCombatComponent::PrintWeaponMap() const
 	}
 }
 
+void UPawnCombatComponent::DropWeapon() const
+{
+	if (ASCR_WeaponBase* Weapon = GetCharacterCarriedWeaponByTag(CurrentEquippedWeaponTag))
+	{
+		Weapon->HandleDrop();
+	}
+}
+
+
+
 void UPawnCombatComponent::OnRep_WeaponEntries()
 {
 	// Rebuild the local TMap from the replicated array.

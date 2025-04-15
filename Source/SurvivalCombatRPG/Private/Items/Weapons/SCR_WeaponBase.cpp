@@ -23,3 +23,13 @@ ASCR_WeaponBase::ASCR_WeaponBase()
 	WeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+void ASCR_WeaponBase::HandleDrop_Implementation()
+{
+	WeaponMesh->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	WeaponMesh->SetSimulatePhysics(true);
+	WeaponMesh->SetEnableGravity(true);
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	WeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+}
+
+

@@ -7,6 +7,9 @@
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "SCR_GameplayTags.h"
+#include "Controllers/SCR_PlayerController.h"
+#include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "Net/UnrealNetwork.h"
 
@@ -202,7 +205,23 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			SetBlood(FMath::Clamp(NewHealth, 0.f, GetMaxBlood()));
  
 			const bool bFatal = NewHealth <= 0.f;
+			
+			if (bFatal)
+			{
+				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
+				if (CombatInterface)
+				{
+					CombatInterface->Die();
+				}
+			}
+			else
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FSCR_GameplayTags::Get().Effects_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
 		}
+		ShowFloatingText(Props, LocalIncomingDamage);
 	}
 }
 
@@ -226,7 +245,7 @@ void USCR_AttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 		}
 		if (Props.SourceController)
 		{
-			ACharacter* SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn()); 
+			Props.SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn()); 
 		}
 	}
 
@@ -239,6 +258,16 @@ void USCR_AttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	}
 }
 
+void USCR_AttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+{
+	if (Props.SourceCharacter != Props.TargetCharacter)
+	{
+		if(ASCR_PlayerController* PC = Cast<ASCR_PlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+		}
+	}
+}
 
 
 void USCR_AttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const

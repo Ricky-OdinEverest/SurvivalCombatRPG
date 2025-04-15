@@ -25,17 +25,21 @@ ASCR_Enemy::ASCR_Enemy()
  
 	EnemyCombatComponent = CreateDefaultSubobject<USCR_EnemyCombatComponent>("EnemyCombatComponent");
 
-	OptionalWeapon = CreateDefaultSubobject<USkeletalMeshComponent>("OptionalWeapon");
-	
-	OptionalWeapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
-	OptionalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
+
+
 
 void ASCR_Enemy::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
 	InitEnemyStartUpData();
+}
+
+void ASCR_Enemy::Die()
+{
+	EnemyCombatComponent->DropWeapon();
+	Super::Die();
 }
 
 void ASCR_Enemy::InitEnemyStartUpData() const

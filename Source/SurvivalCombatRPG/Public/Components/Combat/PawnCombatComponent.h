@@ -42,6 +42,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Debug")
 	void PrintWeaponMap() const;
 
+	void DropWeapon() const;
 protected:
 	// Transient TMap built locally for quick lookup.
 	TMap<FGameplayTag, ASCR_WeaponBase*> CharacterCarriedWeaponMap;

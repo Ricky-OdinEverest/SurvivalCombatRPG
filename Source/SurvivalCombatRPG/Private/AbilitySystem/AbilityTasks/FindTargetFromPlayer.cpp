@@ -53,17 +53,17 @@ void UFindTargetFromPlayer::SendAimData()
 	// Perform the line trace
 	GetWorld()->LineTraceSingleByChannel(TraceHit, CameraLocation, End, ECC_Visibility, QueryParams);
 
-	if (!TraceHit.bBlockingHit)
-	{
-		TraceHit.Location = End;
-	}
-	else if(TraceHit.bBlockingHit)
+
+	if(TraceHit.bBlockingHit)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *TraceHit.GetActor()->GetName()));
 		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Purple, FString::Printf(TEXT("Impact Point: %s"), *TraceHit.ImpactPoint.ToString()));
 		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString::Printf(TEXT("Normal Point: %s"), *TraceHit.ImpactNormal.ToString()));
 	}
-
+	else if (!TraceHit.bBlockingHit)
+	{
+		TraceHit.Location = End;
+	}
    // Build the target data from the trace hit result
    FGameplayAbilityTargetDataHandle DataHandle;
    FGameplayAbilityTargetData_SingleTargetHit* Data = new FGameplayAbilityTargetData_SingleTargetHit();

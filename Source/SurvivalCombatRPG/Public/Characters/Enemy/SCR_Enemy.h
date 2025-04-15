@@ -14,8 +14,10 @@ UCLASS()
 class SURVIVALCOMBATRPG_API ASCR_Enemy : public ASCR_EnemyBase
 {
 	GENERATED_BODY()
-
+public:
 	ASCR_Enemy();
+
+
 protected:
 
 	//~ Begin APawn Interface.
@@ -24,9 +26,8 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	USCR_EnemyCombatComponent* EnemyCombatComponent;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TObjectPtr<USkeletalMeshComponent> OptionalWeapon;
+
+	virtual void Die() override;
 
 private:
 	void InitEnemyStartUpData() const;

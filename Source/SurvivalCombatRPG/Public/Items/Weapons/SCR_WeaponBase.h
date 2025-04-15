@@ -16,6 +16,9 @@ class SURVIVALCOMBATRPG_API ASCR_WeaponBase : public AActor
 public:	
 	
 	ASCR_WeaponBase();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void HandleDrop();
 	
 protected:
 

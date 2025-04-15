@@ -22,6 +22,11 @@ ASCR_BaseCharacter::ASCR_BaseCharacter()
 
 	GetMesh()->bReceivesDecals = false;
 
+	OptionalWeapon = CreateDefaultSubobject<USkeletalMeshComponent>("OptionalWeapon");
+	
+	OptionalWeapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+	OptionalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 }
 
 UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
@@ -32,6 +37,30 @@ UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
 UAnimMontage* ASCR_BaseCharacter::GetHitReactMontage_Implementation()
 {
 	return HitReactMontage;
+}
+
+void ASCR_BaseCharacter::Die()
+{
+	OptionalWeapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	
+	MulticastHandleDeath();
+}
+
+void ASCR_BaseCharacter::MulticastHandleDeath_Implementation()
+{
+	OptionalWeapon->SetSimulatePhysics(true);
+	OptionalWeapon->SetEnableGravity(true);
+	OptionalWeapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+ 	
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	Dissolve();
 }
 
 FVector ASCR_BaseCharacter::GetCombatSocketLocation()
@@ -77,5 +106,21 @@ void ASCR_BaseCharacter::AddCharacterAbilities()
 	if (!HasAuthority()) return;
 
 	SCR_ASC->AddCharacterAbilities(StartupAbilities);
+}
+
+void ASCR_BaseCharacter::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		GetMesh()->SetMaterial(0, DynamicMatInst);
+		StartDissolveTimeline(DynamicMatInst);
+	}
+	if (IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+		OptionalWeapon->SetMaterial(0, DynamicMatInst);
+		StartWeaponDissolveTimeline(DynamicMatInst);
+	}
 }
 

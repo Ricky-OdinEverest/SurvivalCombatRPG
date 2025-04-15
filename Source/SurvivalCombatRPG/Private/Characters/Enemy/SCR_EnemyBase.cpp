@@ -44,6 +44,14 @@ int32 ASCR_EnemyBase::GetPlayerLevel()
 	return Level;
 }
 
+void ASCR_EnemyBase::Die()
+{
+	SetLifeSpan(LifeSpan);
+	
+	Super::Die();
+}
+
+
 void ASCR_EnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	bHitReacting = NewCount > 0;
@@ -55,7 +63,7 @@ void ASCR_EnemyBase::BeginPlay()
 	Super::BeginPlay();
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
-
+	USCR_AbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
  
 	if (USCR_UserWidget* SCR_UserWidget = Cast<USCR_UserWidget>(HealthBar->GetUserWidgetObject()))
 	{
