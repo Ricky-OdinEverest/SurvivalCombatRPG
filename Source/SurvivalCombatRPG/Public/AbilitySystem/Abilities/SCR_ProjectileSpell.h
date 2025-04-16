@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Abilities/SCR_GameplayAbility.h"
+#include "AbilitySystem/Abilities/SCR_DamageGameplayAbility.h"
 #include "SCR_ProjectileSpell.generated.h"
 
 class ASCR_Projectile;
@@ -12,7 +12,7 @@ class UGameplayEffect;
  * 
  */
 UCLASS()
-class SURVIVALCOMBATRPG_API USCR_ProjectileSpell : public USCR_GameplayAbility
+class SURVIVALCOMBATRPG_API USCR_ProjectileSpell : public USCR_DamageGameplayAbility
 {
 	GENERATED_BODY()
 	
@@ -30,8 +30,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<ASCR_Projectile> ProjectileClass;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
  	
 };

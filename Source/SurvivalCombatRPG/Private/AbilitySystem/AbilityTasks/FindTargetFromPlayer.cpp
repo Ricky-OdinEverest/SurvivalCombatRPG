@@ -56,9 +56,9 @@ void UFindTargetFromPlayer::SendAimData()
 
 	if(TraceHit.bBlockingHit)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *TraceHit.GetActor()->GetName()));
+		/*GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *TraceHit.GetActor()->GetName()));
 		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Purple, FString::Printf(TEXT("Impact Point: %s"), *TraceHit.ImpactPoint.ToString()));
-		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString::Printf(TEXT("Normal Point: %s"), *TraceHit.ImpactNormal.ToString()));
+		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString::Printf(TEXT("Normal Point: %s"), *TraceHit.ImpactNormal.ToString()));*/
 	}
 	else if (!TraceHit.bBlockingHit)
 	{

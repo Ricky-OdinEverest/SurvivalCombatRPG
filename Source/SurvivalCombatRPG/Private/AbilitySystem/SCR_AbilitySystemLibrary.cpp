@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/SCR_AbilitySystemLibrary.h"
 
+#include "SCR_AbilityTypes.h"
 #include "Characters/Player/SCR_PlayerState.h"
 #include "GameModes/SCR_GameModeBase.h"
 #include "Kismet/GameplayStatics.h"
@@ -94,4 +95,23 @@ UCharacterClassInfo* USCR_AbilitySystemLibrary::GetCharacterClassInfo(const UObj
 	ASCR_GameModeBase* SCR_GameModeBase = Cast<ASCR_GameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (SCR_GameModeBase == nullptr) return nullptr;
 	return SCR_GameModeBase->CharacterClassInfo;
+}
+
+bool USCR_AbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	
+	if (const FSCR_GameplayEffectContext* SCR_GameplayEffectContext = static_cast<const FSCR_GameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return SCR_GameplayEffectContext->IsCriticalHit();
+	}
+	return false;
+}
+
+void USCR_AbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& EffectContextHandle,
+	bool bInIsCriticalHit)
+{
+	if (FSCR_GameplayEffectContext* SCR_GameplayEffectContext = static_cast<FSCR_GameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		SCR_GameplayEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+	}
 }

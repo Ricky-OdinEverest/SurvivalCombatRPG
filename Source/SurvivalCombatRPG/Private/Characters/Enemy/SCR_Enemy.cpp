@@ -57,19 +57,7 @@ void ASCR_Enemy::InitEnemyStartUpData() const
 				if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.Get())
 				{
 					LoadedData->GiveToAbilitySystemComponent(static_cast<USCR_AbilitySystemComponent*>(AbilitySystemComponent));
- 
-					Debug::Print(TEXT("Enemy Start Up Data Loaded"),FColor::Green);
 
-					if (GEngine)
-					{
-						// Display "Enemy Start Up Data Loaded" on screen for 5.0 seconds in green
-						GEngine->AddOnScreenDebugMessage(
-							-1,                               // Key (using -1 creates a new message each time)
-							5.0f,                             // Duration
-							FColor::Green,                    // Color
-							TEXT("Enemy Start Up Data Loaded") // Message
-						);
-					}
 
 				}
 			}

@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "SCR_GameplayTags.h"
+#include "AbilitySystem/SCR_AbilitySystemLibrary.h"
 #include "Controllers/SCR_PlayerController.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -221,7 +222,9 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
 		}
-		ShowFloatingText(Props, LocalIncomingDamage);
+		
+		const bool bCriticalHit = USCR_AbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
+		ShowFloatingText(Props, LocalIncomingDamage, bCriticalHit);
 	}
 }
 
@@ -258,13 +261,14 @@ void USCR_AttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	}
 }
 
-void USCR_AttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+
+void USCR_AttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bCriticalHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
 		if(ASCR_PlayerController* PC = Cast<ASCR_PlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bCriticalHit);
 		}
 	}
 }
