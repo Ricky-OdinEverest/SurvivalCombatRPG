@@ -79,7 +79,15 @@ USCR_AttributeSet::USCR_AttributeSet()
 	MAPTAGSTOATTRIBUTES(Vital, LeftArmHealth)
 	MAPTAGSTOATTRIBUTES(Vital, RightLegHealth)
 	MAPTAGSTOATTRIBUTES(Vital, LeftLegHealth)
+
+
 #undef MAPTAGSTOATTRIBUTES
+	const FSCR_GameplayTags& GameplayTags = FSCR_GameplayTags::Get();
+	/* Resistance Attributes */
+	 TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
+	 TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetFireResistanceAttribute);
+	 TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
+	 TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
 }
 
 
@@ -125,6 +133,13 @@ void USCR_AttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, Accuracy, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, Concentration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, MagicResistance, COND_None, REPNOTIFY_Always);
+	
+	// Resistance Attributes
+ 
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, FireResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, LightningResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, ArcaneResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
 	
 	// Vital Attributes
 	
@@ -266,7 +281,7 @@ void USCR_AttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
-		if(ASCR_PlayerController* PC = Cast<ASCR_PlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		if(ASCR_PlayerController* PC = Cast<ASCR_PlayerController>(Props.SourceCharacter->Controller))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bCriticalHit);
 		}
@@ -493,6 +508,26 @@ void USCR_AttributeSet::OnRep_RightLegHealth(const FGameplayAttributeData& OldRi
 void USCR_AttributeSet::OnRep_LeftLegHealth(const FGameplayAttributeData& OldLeftLegHealth) const
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, LeftLegHealth, OldLeftLegHealth);
+}
+
+void USCR_AttributeSet::OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, FireResistance, OldFireResistance);
+}
+
+void USCR_AttributeSet::OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, LightningResistance, OldLightningResistance);
+}
+
+void USCR_AttributeSet::OnRep_ArcaneResistance(const FGameplayAttributeData& OldArcaneResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, ArcaneResistance, OldArcaneResistance);
+}
+
+void USCR_AttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, PhysicalResistance, OldPhysicalResistance);
 }
 
 void USCR_AttributeSet::OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const

@@ -10,6 +10,8 @@
 #include "SCR_EnemyBase.generated.h"
 
 class UWidgetComponent;
+class UBehaviorTree;
+class ASCR_AIController;
 /**
  * 
  */
@@ -20,6 +22,7 @@ class SURVIVALCOMBATRPG_API ASCR_EnemyBase : public ASCR_BaseCharacter,  public 
 
 public:
 	ASCR_EnemyBase();
+	virtual void PossessedBy(AController* NewController) override;
 
 	virtual void HighlightActor() override;
 	//UFUNCTION(BlueprintCallable)
@@ -63,6 +66,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+ 
+	UPROPERTY()
+	TObjectPtr<ASCR_AIController> SCR_AIController;
 
 
 };

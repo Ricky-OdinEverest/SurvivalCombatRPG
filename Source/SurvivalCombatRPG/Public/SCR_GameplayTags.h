@@ -84,6 +84,7 @@
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Vital_LeftLegHealth)
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Vital_Hunger)
 
+
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
 
 	
@@ -102,14 +103,24 @@ public:
 		FGameplayTag InputTag_2;
 		FGameplayTag InputTag_3;
 		FGameplayTag InputTag_4;
+
 	
-		FGameplayTag Damage;
+	FGameplayTag Attributes_Resistance_Fire;
+	FGameplayTag Attributes_Resistance_Lightning;
+	FGameplayTag Attributes_Resistance_Arcane;
+	FGameplayTag Attributes_Resistance_Physical;
+ 
+	
+	FGameplayTag Damage;
 	
 	FGameplayTag Damage_Fire;
+	FGameplayTag Damage_Lightning;
+	FGameplayTag Damage_Arcane;
+	FGameplayTag Damage_Physical;
  
-	TArray<FGameplayTag> DamageTypes;
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
-		FGameplayTag Effects_HitReact;
+	FGameplayTag Effects_HitReact;
 
 
 private:

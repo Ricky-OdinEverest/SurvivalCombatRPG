@@ -8,6 +8,9 @@
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "AbilitySystem/SCR_AbilitySystemLibrary.h"
 #include "AbilitySystem/SCR_AttributeSet.h"
+#include "AI/SCR_AIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SurvivalCombatRPG/SurvivalCombatRPG.h"
 #include "UI/Widgets/SCR_UserWidget.h"
@@ -25,6 +28,16 @@ ASCR_EnemyBase::ASCR_EnemyBase()
 	
 	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
 	HealthBar->SetupAttachment(GetRootComponent());
+}
+
+void ASCR_EnemyBase::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+	if (!HasAuthority()) return;
+	SCR_AIController = Cast<ASCR_AIController>(NewController);
+	SCR_AIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	SCR_AIController->RunBehaviorTree(BehaviorTree);
 }
 
 void ASCR_EnemyBase::HighlightActor()
@@ -63,7 +76,11 @@ void ASCR_EnemyBase::BeginPlay()
 	Super::BeginPlay();
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
-	USCR_AbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+	
+
+	if (HasAuthority())
+	{
+	USCR_AbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);	}
  
 	if (USCR_UserWidget* SCR_UserWidget = Cast<USCR_UserWidget>(HealthBar->GetUserWidgetObject()))
 	{
@@ -101,7 +118,10 @@ void ASCR_EnemyBase::InitAbilityActorInfo()
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<USCR_AbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
-	InitializeDefaultAttributes();
+	if (HasAuthority())
+	{
+		InitializeDefaultAttributes();		
+	}
 }
 
 void ASCR_EnemyBase::InitializeDefaultAttributes() const
