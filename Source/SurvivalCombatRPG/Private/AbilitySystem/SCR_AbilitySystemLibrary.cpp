@@ -6,6 +6,7 @@
 #include "SCR_AbilityTypes.h"
 #include "Characters/Player/SCR_PlayerState.h"
 #include "GameModes/SCR_GameModeBase.h"
+#include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/HUD/SCR_HUD.h"
 #include "UI/WidgetController/SCR_WidgetController.h"
@@ -73,7 +74,7 @@ void USCR_AbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 	}
 }
 
-void USCR_AbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+void USCR_AbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass)
 {
 	if(UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject))
 	{
@@ -82,11 +83,17 @@ void USCR_AbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContext
 			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 			ASC->GiveAbility(AbilitySpec);
 		}
+		const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+		for (TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartupAbilities)
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor()))
+			{
+				FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
+				ASC->GiveAbility(AbilitySpec);
+			}
+		}
 	}
-	else
-	{
-		return;
-	}
+
 }
 
 UCharacterClassInfo* USCR_AbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)

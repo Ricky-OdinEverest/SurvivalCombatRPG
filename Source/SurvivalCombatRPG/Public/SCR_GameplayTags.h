@@ -85,6 +85,7 @@
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attributes_Vital_Hunger)
 
 
+
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
 
 	
@@ -160,6 +161,9 @@ namespace SCR_GameplayTags
 	/** Enemy Tags **/
 
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
+
+
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Attack);
 
 
 	/* UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LMB)

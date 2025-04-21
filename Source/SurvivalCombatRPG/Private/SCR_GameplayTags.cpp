@@ -110,8 +110,9 @@ namespace SCR_GameplayTags
 	/** Enemy tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon,"Enemy.Weapon");
 
+	/** Abilities Enemy **/
 	
-
+	UE_DEFINE_GAMEPLAY_TAG(Abilities_Attack,"Abilities.Attack");
 
 	
 }

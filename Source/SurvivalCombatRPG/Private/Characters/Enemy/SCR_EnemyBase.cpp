@@ -24,6 +24,12 @@ ASCR_EnemyBase::ASCR_EnemyBase()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+ 
+
 	AttributeSet = CreateDefaultSubobject<USCR_AttributeSet>("AttributeSet");
 	
 	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
@@ -38,6 +44,8 @@ void ASCR_EnemyBase::PossessedBy(AController* NewController)
 	SCR_AIController = Cast<ASCR_AIController>(NewController);
 	SCR_AIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	SCR_AIController->RunBehaviorTree(BehaviorTree);
+	SCR_AIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
+	SCR_AIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
 }
 
 void ASCR_EnemyBase::HighlightActor()
@@ -64,11 +72,23 @@ void ASCR_EnemyBase::Die()
 	Super::Die();
 }
 
+void ASCR_EnemyBase::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* ASCR_EnemyBase::GetCombatTarget_Implementation() const
+{
+	return CombatTarget;
+}
+
 
 void ASCR_EnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+	if (!HasAuthority()) return;
+	SCR_AIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
 
 void ASCR_EnemyBase::BeginPlay()
@@ -80,7 +100,7 @@ void ASCR_EnemyBase::BeginPlay()
 
 	if (HasAuthority())
 	{
-	USCR_AbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);	}
+	USCR_AbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);	}
  
 	if (USCR_UserWidget* SCR_UserWidget = Cast<USCR_UserWidget>(HealthBar->GetUserWidgetObject()))
 	{
