@@ -284,6 +284,11 @@ void USCR_AttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 		if(ASCR_PlayerController* PC = Cast<ASCR_PlayerController>(Props.SourceCharacter->Controller))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bCriticalHit);
+			return;
+		}
+		if(ASCR_PlayerController* PC = Cast<ASCR_PlayerController>(Props.TargetCharacter->Controller))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bCriticalHit);
 		}
 	}
 }

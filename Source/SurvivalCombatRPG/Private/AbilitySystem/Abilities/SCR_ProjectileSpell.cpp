@@ -18,7 +18,7 @@ void USCR_ProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	
 }
 
-void USCR_ProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
+void USCR_ProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& MontageTag)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
@@ -26,7 +26,9 @@ void USCR_ProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
 	if (CombatInterface)
 	{
-		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
+		//const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo());
+
+		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), MontageTag);
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
  
 		FTransform SpawnTransform;

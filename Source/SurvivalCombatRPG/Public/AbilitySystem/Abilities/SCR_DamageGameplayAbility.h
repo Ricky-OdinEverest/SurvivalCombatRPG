@@ -14,6 +14,11 @@ class SURVIVALCOMBATRPG_API USCR_DamageGameplayAbility : public USCR_GameplayAbi
 {
 	GENERATED_BODY()
 	
+public:
+ 
+	UFUNCTION(BlueprintCallable)
+	void CauseDamage(AActor* TargetActor);
+	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;

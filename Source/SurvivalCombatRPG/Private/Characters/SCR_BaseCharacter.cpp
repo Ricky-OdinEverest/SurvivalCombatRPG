@@ -3,6 +3,7 @@
 
 #include "Characters/SCR_BaseCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "SCR_GameplayTags.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "SurvivalCombatRPG/SurvivalCombatRPG.h"
@@ -61,11 +62,46 @@ void ASCR_BaseCharacter::MulticastHandleDeath_Implementation()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	Dissolve();
+	bDead = true;
 }
 
-FVector ASCR_BaseCharacter::GetCombatSocketLocation()
+FVector ASCR_BaseCharacter::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	return GetMesh()->GetSocketLocation(SpellSocketName);
+	/*if (OptionalWeapon->GetSkeletalMeshAsset() != nullptr)
+	{
+		return OptionalWeapon->GetSocketLocation(SpellSocketName);
+	}
+	return GetMesh()->GetSocketLocation(SpellSocketName);*/
+
+	const FSCR_GameplayTags& GameplayTags = FSCR_GameplayTags::Get();
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(OptionalWeapon))
+	{
+		return OptionalWeapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	return FVector();
+}
+
+bool ASCR_BaseCharacter::IsDead_Implementation() const
+{
+	return bDead;
+}
+
+AActor* ASCR_BaseCharacter::GetAvatar_Implementation()
+{
+	return this;
+}
+
+TArray<FTaggedMontage> ASCR_BaseCharacter::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
 }
 
 FVector ASCR_BaseCharacter::GetRightHandSwordSocketLocation()

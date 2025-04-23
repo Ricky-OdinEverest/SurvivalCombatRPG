@@ -5,6 +5,8 @@
 
 #include "SCR_AbilityTypes.h"
 #include "Characters/Player/SCR_PlayerState.h"
+//#include "Engine/OverlapResult.h"
+#include "Engine/OverlapResult.h"
 #include "GameModes/SCR_GameModeBase.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -120,5 +122,26 @@ void USCR_AbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& E
 	if (FSCR_GameplayEffectContext* SCR_GameplayEffectContext = static_cast<FSCR_GameplayEffectContext*>(EffectContextHandle.Get()))
 	{
 		SCR_GameplayEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+	}
+}
+
+void USCR_AbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldContextObject,
+	TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorsToIgnore, float Radius,
+	const FVector& SphereOrigin)
+{
+	FCollisionQueryParams SphereParams;
+	SphereParams.AddIgnoredActors(ActorsToIgnore);
+ 	
+	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		TArray<FOverlapResult> Overlaps;
+		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
+		for (FOverlapResult& Overlap : Overlaps)
+		{
+			if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsDead(Overlap.GetActor()))
+			{
+				OutOverlappingActors.AddUnique(ICombatInterface::Execute_GetAvatar(Overlap.GetActor()));
+			}
+		}
 	}
 }
