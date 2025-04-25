@@ -9,6 +9,15 @@
 
 class ASCR_WeaponBase;
 
+
+UENUM(BlueprintType)
+enum class EToggleDamageType : uint8
+{
+	CurrentEquippedWeapon,
+	LeftHand,
+	RightHand
+};
+
 USTRUCT(BlueprintType)
 struct FWeaponEntry
 {
@@ -39,10 +48,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player|Combat")
 	ASCR_WeaponBase* GetCharacterCurrentEquippedWeapon() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Player|Combat")
+	void ToggleWeaponCollision(bool bShouldEnable,EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
+
 	UFUNCTION(BlueprintCallable, Category = "Debug")
 	void PrintWeaponMap() const;
 
 	void DropWeapon() const;
+	
+	virtual void OnHitTargetActor(AActor* HitActor);
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
+	
 protected:
 	// Transient TMap built locally for quick lookup.
 	TMap<FGameplayTag, ASCR_WeaponBase*> CharacterCarriedWeaponMap;

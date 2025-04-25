@@ -25,6 +25,9 @@ public:
 	ASCR_PlayerWeaponBase* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
 
 
+	virtual void OnHitTargetActor(AActor* HitActor) override;
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor) override;
+	
 private:
 	class ASCR_PlayerCharacter* PlayerCharacter;
 	

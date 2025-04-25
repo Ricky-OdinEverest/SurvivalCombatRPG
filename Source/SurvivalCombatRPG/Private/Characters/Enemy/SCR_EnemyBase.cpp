@@ -83,6 +83,8 @@ AActor* ASCR_EnemyBase::GetCombatTarget_Implementation() const
 }
 
 
+
+
 void ASCR_EnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	bHitReacting = NewCount > 0;

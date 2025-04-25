@@ -57,6 +57,11 @@ int32 ASCR_PlayerCharacter::GetPlayerLevel()
 	return AuraPlayerState->GetPlayerLevel();
 }
 
+UPawnCombatComponent* ASCR_PlayerCharacter::GetPawnCombatComponent() const
+{
+	return PlayerCombatComponent;
+}
+
 void ASCR_PlayerCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();

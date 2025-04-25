@@ -86,6 +86,12 @@ FVector ASCR_BaseCharacter::GetCombatSocketLocation_Implementation(const FGamepl
 	{
 		return GetMesh()->GetSocketLocation(RightHandSocketName);
 	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand_Spell))
+	{
+		return GetMesh()->GetSocketLocation(SpellSocketName);
+	}
+
+	
 	return FVector();
 }
 
@@ -102,6 +108,11 @@ AActor* ASCR_BaseCharacter::GetAvatar_Implementation()
 TArray<FTaggedMontage> ASCR_BaseCharacter::GetAttackMontages_Implementation()
 {
 	return AttackMontages;
+}
+
+UPawnCombatComponent* ASCR_BaseCharacter::GetPawnCombatComponent() const
+{
+	return nullptr;
 }
 
 FVector ASCR_BaseCharacter::GetRightHandSwordSocketLocation()

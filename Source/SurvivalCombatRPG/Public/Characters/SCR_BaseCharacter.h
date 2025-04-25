@@ -36,6 +36,10 @@ public:
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
 	/** end Combat Interface */
+
+	//~ Begin CombatInterface Interface.
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+	//~ End CombatInterface Interface
  
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();

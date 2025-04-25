@@ -27,6 +27,10 @@ ASCR_Enemy::ASCR_Enemy()
 
 }
 
+UPawnCombatComponent* ASCR_Enemy::GetPawnCombatComponent() const
+{
+	return EnemyCombatComponent;
+}
 
 
 void ASCR_Enemy::PossessedBy(AController* NewController)

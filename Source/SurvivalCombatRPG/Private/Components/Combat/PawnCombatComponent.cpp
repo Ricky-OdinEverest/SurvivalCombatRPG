@@ -4,6 +4,7 @@
 #include "Components/Combat/PawnCombatComponent.h"
 #include "Items/Weapons/SCR_WeaponBase.h"
 #include "SCR_DebugHelper.h"
+#include "Components/BoxComponent.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -38,6 +39,9 @@ void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegis
 	}
  
 	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister,InWeaponToRegister);
+
+	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this,&ThisClass::OnHitTargetActor);
+	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this,&ThisClass::OnWeaponPulledFromTargetActor);
 
 	// Also update the replicated array.
 	FWeaponEntry NewEntry;
@@ -78,6 +82,27 @@ ASCR_WeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
 	return GetCharacterCarriedWeaponByTag(CurrentEquippedWeaponTag);
 }
 
+void UPawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+	if (ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
+	{
+		ASCR_WeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+ 
+		check(WeaponToToggle);
+ 
+		if (bShouldEnable)
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			
+		}
+		else
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			
+		}		
+	}
+}
+
 void UPawnCombatComponent::PrintWeaponMap() const
 {
 	for (const auto& Elem : CharacterCarriedWeaponMap)
@@ -97,6 +122,15 @@ void UPawnCombatComponent::DropWeapon() const
 	}
 }
 
+void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+	
+}
+
+void UPawnCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
+{
+	
+}
 
 
 void UPawnCombatComponent::OnRep_WeaponEntries()

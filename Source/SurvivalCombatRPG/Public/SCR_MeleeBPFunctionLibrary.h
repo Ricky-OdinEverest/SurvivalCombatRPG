@@ -4,17 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "SCR_MeleeEnumTypes.h"
 #include "SCR_MeleeBPFunctionLibrary.generated.h"
 
 
 class USCR_AbilitySystemComponent;
- 
-UENUM()
-enum class ESCR_ConfirmType : uint8
-{
-	Yes,
-	No
-};
+
 /**
  * 
  */
@@ -36,5 +31,11 @@ public:
  
 	UFUNCTION(BlueprintCallable, Category = "SCR_Melee|FunctionLibrary", meta = (DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = "OutConfirmType"))
 	static void BP_DoesActorHaveTag(AActor* InActor,FGameplayTag TagToCheck,ESCR_ConfirmType& OutConfirmType);
+	
+	
+	static UPawnCombatComponent* NativeGetPawnCombatComponentFromActor(AActor* InActor);
+ 
+	UFUNCTION(BlueprintCallable, Category = "SCR_Melee|FunctionLibrary", meta = (DisplayName = "Get Pawn Combat Component From Actor", ExpandEnumAsExecs = "OutValidType"))
+	static UPawnCombatComponent* BP_GetPawnCombatComponentFromActor(AActor* InActor,ESCR_ValidType& OutValidType);
 	
 };

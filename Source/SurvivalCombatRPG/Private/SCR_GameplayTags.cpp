@@ -307,5 +307,11 @@ void FSCR_GameplayTags::InitializeNativeGameplayTags()
 		FName("Montage.Attack.LeftHand"),
 		FString("Left Hand")
 		);
+	
+	GameplayTags.Montage_Attack_LeftHand_Spell = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Montage.Attack.LeftHand.Spell"),
+	FString("Left Hand Speel")
+	);
+	
  
 }

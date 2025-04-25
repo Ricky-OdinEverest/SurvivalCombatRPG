@@ -122,6 +122,7 @@ public:
 	FGameplayTag Montage_Attack_Weapon;
 	FGameplayTag Montage_Attack_RightHand;
 	FGameplayTag Montage_Attack_LeftHand;
+	FGameplayTag Montage_Attack_LeftHand_Spell;
  
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 

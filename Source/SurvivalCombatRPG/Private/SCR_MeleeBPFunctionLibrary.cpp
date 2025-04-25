@@ -5,6 +5,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayTagContainer.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
+#include "Interaction/CombatInterface.h"
 
 USCR_AbilitySystemComponent* USCR_MeleeBPFunctionLibrary::NativeGetSCR_ASCFromActor(AActor* InActor)
 {
@@ -44,4 +45,26 @@ void USCR_MeleeBPFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplay
 	ESCR_ConfirmType& OutConfirmType)
 {
 	OutConfirmType = NativeDoesActorHaveTag(InActor,TagToCheck)? ESCR_ConfirmType::Yes : ESCR_ConfirmType::No;
+}
+
+UPawnCombatComponent* USCR_MeleeBPFunctionLibrary::NativeGetPawnCombatComponentFromActor(AActor* InActor)
+{
+	check(InActor);
+ 
+	if (ICombatInterface* PawnCombatInterface = Cast<ICombatInterface>(InActor))
+	{
+		return PawnCombatInterface->GetPawnCombatComponent();
+	}
+ 
+	return nullptr;
+}
+
+UPawnCombatComponent* USCR_MeleeBPFunctionLibrary::BP_GetPawnCombatComponentFromActor(AActor* InActor,
+	ESCR_ValidType& OutValidType)
+{
+	UPawnCombatComponent* CombatComponent = NativeGetPawnCombatComponentFromActor(InActor);
+ 
+	OutValidType = CombatComponent? ESCR_ValidType::Valid : ESCR_ValidType::Invalid;
+ 
+	return CombatComponent;
 }

@@ -17,12 +17,16 @@ class SURVIVALCOMBATRPG_API ASCR_Enemy : public ASCR_EnemyBase
 public:
 	ASCR_Enemy();
 
-
+	//~ Begin PawnCombatInterface Interface.
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+	//~ End PawnCombatInterface Interface
 protected:
 
 	//~ Begin APawn Interface.
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface
+
+	
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	USCR_EnemyCombatComponent* EnemyCombatComponent;
