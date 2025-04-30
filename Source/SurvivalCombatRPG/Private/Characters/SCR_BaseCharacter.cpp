@@ -6,6 +6,8 @@
 #include "SCR_GameplayTags.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/Combat/PawnCombatComponent.h"
+#include "Items/Weapons/SCR_WeaponBase.h"
 #include "SurvivalCombatRPG/SurvivalCombatRPG.h"
 
 // Sets default values
@@ -90,6 +92,12 @@ FVector ASCR_BaseCharacter::GetCombatSocketLocation_Implementation(const FGamepl
 	{
 		return GetMesh()->GetSocketLocation(SpellSocketName);
 	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Grunt_Mace))
+	{
+		return GetPawnCombatComponent()->GetCharacterCarriedWeaponByTag(SCR_GameplayTags::Enemy_Weapon)->WeaponMesh->
+		                                 GetSocketLocation("MaceSocket");
+	}
+	
 
 	
 	return FVector();

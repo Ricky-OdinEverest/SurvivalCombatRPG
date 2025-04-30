@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ScalableFloat.h"
 #include "GameplayTagContainer.h"
 #include "PlayerStructTypes.generated.h"
 
@@ -43,4 +44,17 @@ struct FSCR_PlayerWeaponData
  
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
 	TArray<FSCR_PlayerAbilitySet> DefaultWeaponAbilities;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	FScalableFloat WeaponBaseDamage;
+	
+	
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TSoftObjectPtr<UTexture2D> SoftWeaponIconTexture;
+};
+UENUM()
+enum class EPlayerSuccessType : uint8
+{
+	Successful,
+	Failed
 };

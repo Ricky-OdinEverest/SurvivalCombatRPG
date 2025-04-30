@@ -26,7 +26,9 @@ public:
  
 	UFUNCTION(BlueprintPure, Category = "SCR_Player|Ability")
 	UPlayerCombatComponent* GetPlayerCombatComponentFromActorInfo();
- 
+	
+	UFUNCTION(BlueprintPure, Category = "SCR_Player|Ability")
+	FGameplayEffectSpecHandle MakePlayerDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass,float InWeaponBaseDamage,FGameplayTag InCurrentAttackTypeTag,int32 InUsedComboCount);
 private:
 	TWeakObjectPtr<ASCR_PlayerCharacter> CachedSCRPlayerCharacter;
 	TWeakObjectPtr<ASCR_PlayerController> CachedSCRPlayerController;

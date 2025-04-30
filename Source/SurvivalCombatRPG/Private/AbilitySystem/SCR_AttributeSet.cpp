@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "SCR_GameplayTags.h"
+#include "SCR_DebugHelper.h"
 #include "AbilitySystem/SCR_AbilitySystemLibrary.h"
 #include "Controllers/SCR_PlayerController.h"
 #include "Interaction/CombatInterface.h"
@@ -213,12 +214,22 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	}
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
+		const float OldHealth = GetBlood();
 		const float LocalIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
 		if (LocalIncomingDamage > 0.f)
 		{
 			const float NewHealth = GetBlood() - LocalIncomingDamage;
 			SetBlood(FMath::Clamp(NewHealth, 0.f, GetMaxBlood()));
+
+			const FString DebugString = FString::Printf(
+	 TEXT("Old Health: %f, Damage Done: %f, NewCurrentHealth: %f"),
+	 OldHealth,
+	 LocalIncomingDamage,
+	 NewHealth
+ );
+ 
+			Debug::Print(DebugString,FColor::Green);
  
 			const bool bFatal = NewHealth <= 0.f;
 			

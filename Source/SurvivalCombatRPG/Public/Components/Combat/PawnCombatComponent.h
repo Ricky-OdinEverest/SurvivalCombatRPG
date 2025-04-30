@@ -58,8 +58,10 @@ public:
 	
 	virtual void OnHitTargetActor(AActor* HitActor);
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
-	
+
 protected:
+	TArray<AActor*> OverlappedActors;
+	
 	// Transient TMap built locally for quick lookup.
 	TMap<FGameplayTag, ASCR_WeaponBase*> CharacterCarriedWeaponMap;
 

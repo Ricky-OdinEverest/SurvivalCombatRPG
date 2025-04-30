@@ -105,7 +105,11 @@ namespace SCR_GameplayTags
 	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
 
-
+	UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Light,"Player.SetByCaller.AttackType.Light");
+	UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Heavy,"Player.SetByCaller.AttackType.Heavy");
+	
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_HitPause,"Player.Ability.HitPause");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Event_HitPause,"Player.Event.HitPause");
 	
 	/** Enemy tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon,"Enemy.Weapon");
@@ -114,6 +118,14 @@ namespace SCR_GameplayTags
 	
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Attack,"Abilities.Attack");
 
+	/** Shared tags **/
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_MeleeHit,"Shared.Event.MeleeHit");
+
+	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_BaseDamage,"Shared.SetByCaller.BaseDamage");
+
+	//future death imp tags
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death,"Shared.Ability.Death");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Dead,"Shared.Status.Dead");
 	
 }
 
@@ -310,8 +322,15 @@ void FSCR_GameplayTags::InitializeNativeGameplayTags()
 	
 	GameplayTags.Montage_Attack_LeftHand_Spell = UGameplayTagsManager::Get().AddNativeGameplayTag(
 	FName("Montage.Attack.LeftHand.Spell"),
-	FString("Left Hand Speel")
+	FString("Left Hand Spell")
 	);
+
 	
- 
+	// Montage.Attack.Grunt.Mace
+	GameplayTags.Montage_Attack_Grunt_Mace = UGameplayTagsManager::Get().AddNativeGameplayTag(
+FName("Montage.Attack.Grunt.Mace"),
+FString("Temp Grunt Mace Attack Tag")
+);
+	
+	
 }

@@ -35,6 +35,9 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature, float, N
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 
+// waepon icon changer
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChangedDelegate,TSoftObjectPtr<UTexture2D>,SoftWeaponIcon);
+
 
 
 /**
@@ -47,6 +50,9 @@ class SURVIVALCOMBATRPG_API UOverlayWidgetController : public USCR_WidgetControl
 public:
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbacksToDependencies() override;
+
+	UPROPERTY(BlueprintCallable,BlueprintAssignable)
+	FOnEquippedWeaponChangedDelegate OnEquippedWeaponChanged;
 	
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature  OnBloodChanged;

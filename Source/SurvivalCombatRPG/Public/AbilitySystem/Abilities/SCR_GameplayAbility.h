@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "PlayerTypes/PlayerStructTypes.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "SCR_GameplayAbility.generated.h"
 
@@ -46,5 +47,10 @@ protected:
 
 	UFUNCTION(BlueprintPure, Category = "Player_Ability")
 	USCR_AbilitySystemComponent* GetPlayerAbilitySystemComponentFromActorInfo() const;
+
+	FActiveGameplayEffectHandle NativeApplyEffectSpecHandleToTarget(AActor* TargetActor,const FGameplayEffectSpecHandle& InSpecHandle);
+ 
+	UFUNCTION(BlueprintCallable, Category = "Player_Ability", meta = (DisplayName = "Apply Gameplay Effect Spec Handle To Target Actor", ExpandEnumAsExecs = "OutSuccessType"))
+	FActiveGameplayEffectHandle BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor,const FGameplayEffectSpecHandle& InSpecHandle,EPlayerSuccessType& OutSuccessType);
 
 };

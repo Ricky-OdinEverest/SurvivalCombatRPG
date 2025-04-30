@@ -25,10 +25,11 @@ public:
 	FOnTargetInteractedDelegate OnWeaponHitTarget;
 	FOnTargetInteractedDelegate OnWeaponPulledFromTarget;
 	
-protected:
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
 	UStaticMeshComponent* WeaponMesh;
+protected:
+
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
 	UBoxComponent* WeaponCollisionBox;

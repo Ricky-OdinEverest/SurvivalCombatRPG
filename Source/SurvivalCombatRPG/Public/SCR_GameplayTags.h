@@ -88,7 +88,7 @@
 
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
 
-	
+
 
 struct FSCR_GameplayTags
 {
@@ -110,6 +110,8 @@ public:
 	FGameplayTag Attributes_Resistance_Lightning;
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
+	
+
  
 	
 	FGameplayTag Damage;
@@ -123,6 +125,8 @@ public:
 	FGameplayTag Montage_Attack_RightHand;
 	FGameplayTag Montage_Attack_LeftHand;
 	FGameplayTag Montage_Attack_LeftHand_Spell;
+	
+	FGameplayTag Montage_Attack_Grunt_Mace; //Montage.Attack.Grunt.Mace
  
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
@@ -163,6 +167,14 @@ namespace SCR_GameplayTags
 
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Test);
 
+	
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Heavy);
+	
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_HitPause);
+	
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_HitPause);
+
 	/** Enemy Tags **/
 
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
@@ -170,7 +182,12 @@ namespace SCR_GameplayTags
 
 	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abilities_Attack);
 
-
+	/** Shared tags **/
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
+	// FutUre death imp tags
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_Dead);
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_Death);
 	/* UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LMB)
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_RMB)
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_1)
