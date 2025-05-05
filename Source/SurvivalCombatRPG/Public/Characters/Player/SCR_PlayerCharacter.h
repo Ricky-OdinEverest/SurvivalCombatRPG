@@ -18,7 +18,7 @@ class SURVIVALCOMBATRPG_API ASCR_PlayerCharacter : public ASCR_BaseCharacter
 	GENERATED_BODY()
 
 public:
-	ASCR_PlayerCharacter();
+	ASCR_PlayerCharacter(const FObjectInitializer& ObjectInitializer);
 
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel() override;
@@ -30,6 +30,12 @@ public:
 	
 
 	virtual void PostInitializeComponents() override;
+
+	//Reacts to calling crouch?
+	virtual void OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
+
+	virtual void OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
+
 	
 protected:
 	virtual void BeginPlay() override;
@@ -68,4 +74,12 @@ private:
 
 public:
 	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponent;}
+
+	//void OnMaxMovementSpeedChanged(const FOnAttributeChangeData& Data);
+
+protected:
+	//FDelegateHandle MaxMovementSpeedChangedDelegateHandle;
+	// Jump Ability with tags currently Broken Up Between the Player controller and this class
+	UPROPERTY(EditDefaultsOnly)
+	FGameplayTagContainer InAirTags;
 };

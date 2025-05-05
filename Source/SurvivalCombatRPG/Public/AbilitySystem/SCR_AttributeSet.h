@@ -323,6 +323,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(USCR_AttributeSet, IncomingDamage);
+
+
+
 	
 
 	
@@ -492,6 +495,15 @@ public:
 	UFUNCTION()
 	void OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const;
 
+
+
+	// Movement Functions Experiment
+	UPROPERTY(BlueprintReadOnly, Category = "MovementSpeed", ReplicatedUsing = OnRep_MaxMovementSpeed)
+	FGameplayAttributeData MaxMovementSpeed;
+	ATTRIBUTE_ACCESSORS(USCR_AttributeSet, MaxMovementSpeed)
+	
+	UFUNCTION()
+	virtual void OnRep_MaxMovementSpeed(const FGameplayAttributeData& OldMaxMovementSpeed);
 
 private:
 

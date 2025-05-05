@@ -1,11 +1,12 @@
 // Copyright Ricky Everest
 #include "Characters/Player/SCR_PlayerCharacter.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/Movement/SCR_MovementComponent.h"
 #include  "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "SCR_DebugHelper.h"
 #include "Characters/Player/SCR_PlayerState.h"
@@ -14,7 +15,8 @@
 #include "DataAssets/StartUpData/DataAsset_PlayerStartUpData.h"
 #include "UI/HUD/SCR_HUD.h"
 
-ASCR_PlayerCharacter::ASCR_PlayerCharacter()
+ASCR_PlayerCharacter::ASCR_PlayerCharacter(const FObjectInitializer& ObjectInitializer) :
+	Super(ObjectInitializer.SetDefaultSubobjectClass<USCR_MovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	GetCapsuleComponent()->InitCapsuleSize(42.f,96.f);
 
@@ -48,6 +50,8 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter()
 
 	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
 	PlayerCombatComponent ->SetIsReplicated(true);
+	
+	//AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAttributeSet()->GetMaxMovementSpeedAttribute()).AddUObject(this, &ASCR_PlayerCharacter::OnMaxMovementSpeedChanged);
 }
 
 int32 ASCR_PlayerCharacter::GetPlayerLevel()
@@ -70,6 +74,26 @@ void ASCR_PlayerCharacter::PostInitializeComponents()
 		PlayerCombatComponent->PlayerCharacter = this;
 	}
 }
+// called in abilitu
+void ASCR_PlayerCharacter::OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust)
+{
+	Super::OnStartCrouch(HalfHeightAdjust, ScaledHalfHeightAdjust);
+	
+	// Broadcast the start crouch event
+	FGameplayEventData EventData;
+	EventData.EventTag = FGameplayTag::RequestGameplayTag(FName("Event.Movement.OnStartCrouch"));
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, EventData.EventTag, EventData);
+}
+
+void ASCR_PlayerCharacter::OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust)
+{
+	Super::OnEndCrouch(HalfHeightAdjust, ScaledHalfHeightAdjust);
+	// Broadcast the end crouch event
+	FGameplayEventData EventData;
+	EventData.EventTag = FGameplayTag::RequestGameplayTag(FName("Event.Movement.OnEndCrouch"));
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, EventData.EventTag, EventData);
+}
+
 
 void ASCR_PlayerCharacter::BeginPlay()
 {
@@ -131,3 +155,5 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 	InitializeDefaultAttributes();
 	
 }
+
+

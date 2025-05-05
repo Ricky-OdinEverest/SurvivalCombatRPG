@@ -43,7 +43,8 @@ private:
 
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<USCR_InputConfig> InputConfig;;
+	TObjectPtr<USCR_InputConfig> InputConfig;
+
 
 	UPROPERTY()
 	TObjectPtr<USCR_AbilitySystemComponent> SCR_AbilitySystemComponent;
@@ -98,6 +99,11 @@ private:
  
 	//void Move(const FInputActionValue& InputActionValue);
  
+protected:
+	// Experiment Event tag to Trigger Jump Ability
+	UPROPERTY(EditDefaultsOnly)
+	FGameplayTag JumpEventTag;
+	
 	
 	
 };

@@ -2,6 +2,7 @@
 
 
 #include "Characters/SCR_BaseCharacter.h"
+#include "Components/Movement/Effects/SCR_FootStepComponent.h"
 #include "AbilitySystemComponent.h"
 #include "SCR_GameplayTags.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
@@ -30,6 +31,28 @@ ASCR_BaseCharacter::ASCR_BaseCharacter()
 	OptionalWeapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	OptionalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+	FootstepsComponent = CreateDefaultSubobject<USCR_FootStepComponent>(TEXT("FootstepsComponent"));
+
+}
+// This is identical aside from the object initializer parameter that allows for an alternate movement component class
+ASCR_BaseCharacter::ASCR_BaseCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	GetMesh()->SetGenerateOverlapEvents(true);
+	GetMesh()->bReceivesDecals = false;
+
+	OptionalWeapon = CreateDefaultSubobject<USkeletalMeshComponent>("OptionalWeapon");
+	OptionalWeapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+	OptionalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	FootstepsComponent = CreateDefaultSubobject<USCR_FootStepComponent>(TEXT("FootstepsComponent"));
 }
 
 UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
@@ -122,6 +145,13 @@ UPawnCombatComponent* ASCR_BaseCharacter::GetPawnCombatComponent() const
 {
 	return nullptr;
 }
+
+USCR_FootStepComponent* ASCR_BaseCharacter::GetFootstepsComponent() const
+{
+	return FootstepsComponent;
+}
+
+
 
 FVector ASCR_BaseCharacter::GetRightHandSwordSocketLocation()
 {

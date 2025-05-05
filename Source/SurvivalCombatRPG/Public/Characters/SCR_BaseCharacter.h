@@ -25,6 +25,9 @@ public:
 
 	ASCR_BaseCharacter();
 
+	// May switch this to the default constructor since it allows for a custom movemnt component
+	ASCR_BaseCharacter(const FObjectInitializer& ObjectInitializer);
+
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
@@ -46,12 +49,26 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
+
+
+	// Foot Steps Component Caller
+	class USCR_FootStepComponent* GetFootstepsComponent() const;
+
+
+	// Overide landed Function to Make Jump AbilityEnd Work
+	//shifted to player charachter
+	//virtual  void Landed(const FHitResult& Hit) override;
+	
 	
 protected:
     // May get rid of. Allows character to Spawn in with a weapon
 	// Current implementation is to spawn weapons via the spawn weapon ability
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<USkeletalMeshComponent> OptionalWeapon;
+
+	//Foot Step Component Object To Be initialized
+	UPROPERTY(BlueprintReadOnly)
+	USCR_FootStepComponent* FootstepsComponent;
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName SpellSocketName;
@@ -118,4 +135,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
+
+
 };

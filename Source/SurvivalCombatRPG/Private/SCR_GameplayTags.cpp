@@ -77,6 +77,9 @@ namespace SCR_GameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move,"InputTag.Move")
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look,"InputTag.Look")
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Jump,"InputTag.Jump")
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Crouch,"InputTag.Crouch")
+	
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Sprint, "InputTag.Sprint")
 	
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipSword, "InputTag.EquipSword");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnEquipSword, "InputTag.UnEquipSword");
@@ -110,6 +113,25 @@ namespace SCR_GameplayTags
 	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_HitPause,"Player.Ability.HitPause");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_HitPause,"Player.Event.HitPause");
+
+	
+	/** Player movement Ability Tags **/
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_InAir_Jump, "Player.Ability.InAir.Jump");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Movement_Crouch, "Player.Ability.Movement.Crouch");
+	
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Movement_Sprint, "Player.Ability.Movement.Sprint");
+
+	/** Player movement State Tags **/
+	UE_DEFINE_GAMEPLAY_TAG(State_InAir_Jumping, "State.InAir.Jumping");
+	UE_DEFINE_GAMEPLAY_TAG(State_Movement_Crouch, "State.Movement.Crouch");
+	
+	UE_DEFINE_GAMEPLAY_TAG(State_Movement_Sprint,"State.Movement.Sprint");
+	
+	/** Player movement Event Tags **/
+	UE_DEFINE_GAMEPLAY_TAG(Event_Movement_Jump,"Event.Movement.Jump");
+	UE_DEFINE_GAMEPLAY_TAG(Event_Movement_OnStartCrouch, "Event.Movement.OnStartCrouch");
+	UE_DEFINE_GAMEPLAY_TAG(Event_Movement_OnEndCrouch, "Event.Movement.OnEndCrouch");
 	
 	/** Enemy tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon,"Enemy.Weapon");
@@ -117,6 +139,7 @@ namespace SCR_GameplayTags
 	/** Abilities Enemy **/
 	
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Attack,"Abilities.Attack");
+	
 
 	/** Shared tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_MeleeHit,"Shared.Event.MeleeHit");

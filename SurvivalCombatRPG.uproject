@@ -15,7 +15,8 @@
 				"UMG",
 				"CoreUObject",
 				"GameplayStateTreeModule",
-				"AIModule"
+				"AIModule",
+				"PhysicsCore"
 			]
 		}
 	],

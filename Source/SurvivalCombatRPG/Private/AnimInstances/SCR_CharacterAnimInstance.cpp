@@ -35,4 +35,5 @@ void USCR_CharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeco
 	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
 	bIsFalling = OwningMovementComponent->IsFalling();
 	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D()>0.f;
+	bIsCrouched = OwningMovementComponent->IsCrouching();
 }

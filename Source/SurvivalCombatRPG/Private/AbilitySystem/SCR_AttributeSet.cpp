@@ -10,6 +10,7 @@
 #include "SCR_DebugHelper.h"
 #include "AbilitySystem/SCR_AbilitySystemLibrary.h"
 #include "Controllers/SCR_PlayerController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -177,8 +178,8 @@ void USCR_AttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, RightLegHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, LeftLegHealth, COND_None, REPNOTIFY_Always);
 
-
-
+	// movement stays at bottom for now
+	DOREPLIFETIME_CONDITION_NOTIFY(USCR_AttributeSet, MaxMovementSpeed, COND_None, REPNOTIFY_Always);
 
 
 }
@@ -252,15 +253,34 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		const bool bCriticalHit = USCR_AbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 		ShowFloatingText(Props, LocalIncomingDamage, bCriticalHit);
 	}
+
+	if (Data.EvaluatedData.Attribute == GetMaxMovementSpeedAttribute())
+	{
+		
+		ACharacter* OwningCharacter = Cast<ACharacter>(Props.TargetAvatarActor);
+		UCharacterMovementComponent* CharacterMovement = OwningCharacter ? OwningCharacter->GetCharacterMovement() : nullptr;
+
+		if (CharacterMovement)
+		{
+			const float MaxSpeed = GetMaxMovementSpeed();
+
+			CharacterMovement->MaxWalkSpeed = MaxSpeed;
+		}
+	}
 }
 
+
+// This code ensures we have a correct// non null causer (Source) and Reciever (Target for abilities)
 void USCR_AttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
 {
 	// Source = causer of the effect, Target = target of the effect (owner of this AS)
-
+// Context Handle Contains Info about the source of the effect like tags and level
 	Props.EffectContextHandle = Data.EffectSpec.GetContext();
+
+	// get the abs of the source generating the effect
 	Props.SourceASC = Props.EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
 
+	// if the ability system component is valid retrieve the controller and the avatar actor
 	if (IsValid(Props.SourceASC) && Props.SourceASC->AbilityActorInfo.IsValid() && Props.SourceASC->AbilityActorInfo->AvatarActor.IsValid())
 	{
 		Props.SourceAvatarActor = Props.SourceASC->AbilityActorInfo->AvatarActor.Get();
@@ -569,4 +589,9 @@ void USCR_AttributeSet::OnRep_HealthRegeneration(const FGameplayAttributeData& O
 void USCR_AttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, ManaRegeneration, OldManaRegeneration);
+}
+
+void USCR_AttributeSet::OnRep_MaxMovementSpeed(const FGameplayAttributeData& OldMaxMovementSpeed)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(USCR_AttributeSet, MaxMovementSpeed, OldMaxMovementSpeed);
 }

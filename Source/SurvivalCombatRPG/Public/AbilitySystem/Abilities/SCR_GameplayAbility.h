@@ -53,4 +53,13 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Player_Ability", meta = (DisplayName = "Apply Gameplay Effect Spec Handle To Target Actor", ExpandEnumAsExecs = "OutSuccessType"))
 	FActiveGameplayEffectHandle BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor,const FGameplayEffectSpecHandle& InSpecHandle,EPlayerSuccessType& OutSuccessType);
 
+//Effects
+
+	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	TArray<TSubclassOf<UGameplayEffect>> OngoingEffectsToRemoveOnEnd;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	TArray<TSubclassOf<UGameplayEffect>> OngoingEffectsToJustApplyOnStart;
+	
+	TArray<FActiveGameplayEffectHandle> RemoveOnEndEffectHandles;
 };

@@ -57,7 +57,7 @@ void ASCR_PlayerController::SetupInputComponent()
 
 	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_Move,ETriggerEvent::Triggered,this,&ThisClass::Input_Move);
 	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_Look,ETriggerEvent::Triggered,this,&ThisClass::Input_Look);
-	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_Jump,ETriggerEvent::Triggered,this,&ThisClass::Input_Jump);
+	//SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_Jump,ETriggerEvent::Triggered,this,&ThisClass::Input_Jump);
 	SCR_EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ASCR_PlayerController::ShiftPressed);
 	SCR_EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ASCR_PlayerController::ShiftReleased);
 	
@@ -129,7 +129,18 @@ void ASCR_PlayerController::Input_Look(const FInputActionValue& InputActionValue
 
 void ASCR_PlayerController::Input_Jump(const FInputActionValue& InputActionValue)
 {
-	if (ACharacter* ControlledCharacter = Cast<ACharacter>(GetPawn())) ControlledCharacter->Jump();
+	/*Debug::Print(TEXT("Jump Attempt"));
+	// Default Implementation
+	// if (ACharacter* ControlledCharacter = Cast<ACharacter>(GetPawn())) ControlledCharacter->Jump();
+	if (ACharacter* ControlledCharacter = Cast<ACharacter>(GetPawn()))
+	{
+		FGameplayEventData Payload;
+		Payload.Instigator = this;
+		Payload.EventTag = JumpEventTag;
+
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(ControlledCharacter, JumpEventTag, Payload);
+	}*/
+
 }
 
 void ASCR_PlayerController::CursorTrace()
