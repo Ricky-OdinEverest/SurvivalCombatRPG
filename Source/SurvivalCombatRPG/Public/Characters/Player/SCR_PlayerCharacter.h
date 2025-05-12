@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Characters/SCR_BaseCharacter.h"
+#include "Interaction/PlayerInterface.h"
 #include "SCR_PlayerCharacter.generated.h"
 
 class USpringArmComponent;
@@ -13,7 +14,7 @@ class UPlayerCombatComponent;
  * 
  */
 UCLASS()
-class SURVIVALCOMBATRPG_API ASCR_PlayerCharacter : public ASCR_BaseCharacter
+class SURVIVALCOMBATRPG_API ASCR_PlayerCharacter : public ASCR_BaseCharacter, public IPlayerInterface
 {
 	GENERATED_BODY()
 
@@ -35,7 +36,12 @@ public:
 	virtual void OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
 
 	virtual void OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
+	
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//class UParkourExtensionComponent* ParkourExtensionComponent;
 
+	virtual void ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial) override;
+	virtual void HideMagicCircle_Implementation() override;
 	
 protected:
 	virtual void BeginPlay() override;

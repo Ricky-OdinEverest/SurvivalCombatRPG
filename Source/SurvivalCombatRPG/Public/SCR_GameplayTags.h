@@ -98,6 +98,7 @@ public:
 
 	FGameplayTagContainer SCR_TagsContainer = FGameplayTagContainer();
 
+		FGameplayTag Player_Block_InputPressed;
 		FGameplayTag InputTag_LMB;
 		FGameplayTag InputTag_RMB;
 		FGameplayTag InputTag_1;
@@ -121,10 +122,13 @@ public:
 	FGameplayTag Damage_Arcane;
 	FGameplayTag Damage_Physical;
 	
+	FGameplayTag Abilities_Arcane_ArcaneShards;
+	
 	FGameplayTag Montage_Attack_Weapon;
 	FGameplayTag Montage_Attack_RightHand;
 	FGameplayTag Montage_Attack_LeftHand;
 	FGameplayTag Montage_Attack_LeftHand_Spell;
+	
 	
 	FGameplayTag Montage_Attack_Grunt_Mace; //Montage.Attack.Grunt.Mace
  
@@ -214,5 +218,8 @@ namespace SCR_GameplayTags
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_2)
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_3)
 	 UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_4)*/
+
+	//Gore Tags
+	SURVIVALCOMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayCue_Character_DamageTaken);
 
 }

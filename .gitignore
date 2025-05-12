@@ -6,6 +6,7 @@ Build
 Assets
 
 Content/FabricMaterials_2/
+/Content/Effects/
 Assets/CharacterCreatorExports/*.Fbx
 
 .vscode

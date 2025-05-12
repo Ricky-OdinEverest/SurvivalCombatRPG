@@ -11,6 +11,7 @@
 #include "SCR_DebugHelper.h"
 #include "Characters/Player/SCR_PlayerState.h"
 #include "Components/Combat/PlayerCombatComponent.h"
+//#include "Components/Movement/ParkourExtensionComponent.h"
 #include "Controllers/SCR_PlayerController.h"
 #include "DataAssets/StartUpData/DataAsset_PlayerStartUpData.h"
 #include "UI/HUD/SCR_HUD.h"
@@ -51,6 +52,8 @@ ASCR_PlayerCharacter::ASCR_PlayerCharacter(const FObjectInitializer& ObjectIniti
 	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
 	PlayerCombatComponent ->SetIsReplicated(true);
 	
+//	ParkourExtensionComponent = CreateDefaultSubobject<UParkourExtensionComponent>(TEXT("ParkourExtensionComponent"));
+//	ParkourExtensionComponent->SetIsReplicated(true);
 	//AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAttributeSet()->GetMaxMovementSpeedAttribute()).AddUObject(this, &ASCR_PlayerCharacter::OnMaxMovementSpeedChanged);
 }
 
@@ -92,6 +95,24 @@ void ASCR_PlayerCharacter::OnEndCrouch(float HalfHeightAdjust, float ScaledHalfH
 	FGameplayEventData EventData;
 	EventData.EventTag = FGameplayTag::RequestGameplayTag(FName("Event.Movement.OnEndCrouch"));
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, EventData.EventTag, EventData);
+}
+
+void ASCR_PlayerCharacter::ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial)
+{
+	if (ASCR_PlayerController* SCR_PlayerController = Cast<ASCR_PlayerController>(GetController()))
+	{
+		SCR_PlayerController->ShowMagicCircle(DecalMaterial);
+		SCR_PlayerController->bShowMouseCursor = false;
+	}
+}
+
+void ASCR_PlayerCharacter::HideMagicCircle_Implementation()
+{
+	if (ASCR_PlayerController* SCR_PlayerController = Cast<ASCR_PlayerController>(GetController()))
+	{
+		SCR_PlayerController->HideMagicCircle();
+		SCR_PlayerController->bShowMouseCursor = true;
+	}
 }
 
 

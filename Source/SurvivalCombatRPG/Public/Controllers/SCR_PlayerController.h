@@ -29,6 +29,14 @@ public:
 		
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bCriticalHit);
+	
+	
+	UFUNCTION(BlueprintCallable)
+	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
+
+	UFUNCTION(BlueprintCallable)
+	void HideMagicCircle();
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -37,6 +45,8 @@ protected:
 	// Blueprint callable getter for the Enhanced Input Local Player Subsystem
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	UEnhancedInputLocalPlayerSubsystem* GetEnhancedInputSubsystem() const;
+
+	
 
 private:
 
@@ -98,7 +108,14 @@ private:
 	//TObjectPtr<UInputAction> MoveAction;
  
 	//void Move(const FInputActionValue& InputActionValue);
- 
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class AMagicCircle> MagicCircleClass;
+
+	UPROPERTY()
+	TObjectPtr<AMagicCircle> MagicCircle;
+
+	void UpdateMagicCircleLocation();
 protected:
 	// Experiment Event tag to Trigger Jump Ability
 	UPROPERTY(EditDefaultsOnly)

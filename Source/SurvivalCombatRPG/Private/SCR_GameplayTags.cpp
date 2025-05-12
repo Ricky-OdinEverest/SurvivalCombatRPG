@@ -149,7 +149,9 @@ namespace SCR_GameplayTags
 	//future death imp tags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death,"Shared.Ability.Death");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Dead,"Shared.Status.Dead");
-	
+
+	// Gore Tags UE Gore
+	UE_DEFINE_GAMEPLAY_TAG(GameplayCue_Character_DamageTaken,"GameplayCue.Character.DamageTaken");
 }
 
 
@@ -355,5 +357,16 @@ FName("Montage.Attack.Grunt.Mace"),
 FString("Temp Grunt Mace Attack Tag")
 );
 	
+	GameplayTags.Abilities_Arcane_ArcaneShards = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Abilities.Arcane.ArcaneShards"),
+	FString("Arcane Shards Ability Tag")
+	);
+
+	GameplayTags.Player_Block_InputPressed = UGameplayTagsManager::Get().AddNativeGameplayTag(
+FName("Player.Block.InputPressed"),
+FString("Block input pressed")
+);
+
+
 	
 }

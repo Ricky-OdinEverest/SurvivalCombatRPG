@@ -10,8 +10,11 @@
 #include "SCR_GameplayTags.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
+#include "Components/DecalComponent.h"
 #include "SCR_DebugHelper.h"
+#include "Actor/MagicCircle.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
+#include "Actor/MagicCircle.h"
 #include "Components/SplineComponent.h"
 #include "GameFramework/Character.h"
 #include "Interaction/EnemyInterface.h"
@@ -30,6 +33,27 @@ void ASCR_PlayerController::PlayerTick(float DeltaTime)
 
 	CursorTrace();
 	AutoRun();
+	UpdateMagicCircleLocation();
+}
+
+void ASCR_PlayerController::ShowMagicCircle(UMaterialInterface* DecalMaterial)
+{
+	if (!IsValid(MagicCircle))
+	{
+		MagicCircle = GetWorld()->SpawnActor<AMagicCircle>(MagicCircleClass);
+		if (DecalMaterial)
+		{
+			MagicCircle->MagicCircleDecal->SetMaterial(0, DecalMaterial);
+		}
+	}
+}
+
+void ASCR_PlayerController::HideMagicCircle()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->Destroy();
+	}
 }
 
 void ASCR_PlayerController::BeginPlay()
@@ -160,6 +184,11 @@ void ASCR_PlayerController::CursorTrace()
 
 void ASCR_PlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
+	if (GetASC() && GetASC()->HasMatchingGameplayTag(FSCR_GameplayTags::Get().Player_Block_InputPressed))
+	{
+		return;
+	}
+	
 	if (InputTag.MatchesTagExact(FSCR_GameplayTags::Get().InputTag_LMB))
 	{
 		// temp shutting down LMB Functions
@@ -167,6 +196,7 @@ void ASCR_PlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		bTargeting = ThisActor ? true : false;
 		bAutoRunning = false;
 	}
+	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
 }
 
 void ASCR_PlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
@@ -268,5 +298,14 @@ void ASCR_PlayerController::AutoRun()
 		{
 			bAutoRunning = false;
 		}
+	}
+}
+
+void ASCR_PlayerController::UpdateMagicCircleLocation()
+{
+	
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->SetActorLocation(CursorHit.ImpactPoint);
 	}
 }

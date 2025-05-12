@@ -16,7 +16,8 @@
 				"CoreUObject",
 				"GameplayStateTreeModule",
 				"AIModule",
-				"PhysicsCore"
+				"PhysicsCore",
+				"ModularGameplay"
 			]
 		}
 	],
