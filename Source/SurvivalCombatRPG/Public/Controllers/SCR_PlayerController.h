@@ -36,6 +36,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void HideMagicCircle();
+
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_SendGameplayEventToSelf(const FGameplayTag& EventTag, const FGameplayEventData& EventData);
 	
 protected:
 	virtual void BeginPlay() override;

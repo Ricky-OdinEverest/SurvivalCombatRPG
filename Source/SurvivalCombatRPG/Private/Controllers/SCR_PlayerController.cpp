@@ -56,6 +56,18 @@ void ASCR_PlayerController::HideMagicCircle()
 	}
 }
 
+void ASCR_PlayerController::Server_SendGameplayEventToSelf_Implementation(const FGameplayTag& EventTag,
+	const FGameplayEventData& EventData)
+{
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetPawn(), EventTag, EventData);
+}
+
+bool ASCR_PlayerController::Server_SendGameplayEventToSelf_Validate(const FGameplayTag& EventTag,
+	const FGameplayEventData& EventData)
+{
+	return true;
+}
+
 void ASCR_PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -197,6 +209,19 @@ void ASCR_PlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		bAutoRunning = false;
 	}
 	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
+
+	if (InputTag.MatchesTagExact(SCR_GameplayTags::InputTag_LightAttack_Sword)) // Or whatever tag you use for Light Attack
+	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetPawn(), SCR_GameplayTags::Input_Event_PrimaryAttack, FGameplayEventData());
+		Server_SendGameplayEventToSelf(SCR_GameplayTags::Input_Event_PrimaryAttack, FGameplayEventData());
+	}
+	else if (InputTag.MatchesTagExact(SCR_GameplayTags::InputTag_HeavyAttack_Sword)) // Or whatever tag you use for Heavy Attack
+	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetPawn(), SCR_GameplayTags::Input_Event_SecondaryAttack, FGameplayEventData());
+		Server_SendGameplayEventToSelf(SCR_GameplayTags::Input_Event_SecondaryAttack, FGameplayEventData());
+	}
+
+
 }
 
 void ASCR_PlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
@@ -205,7 +230,7 @@ void ASCR_PlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	{
 		if (GetASC())
 		{
-			GetASC()->AbilityInputTagReleased(InputTag);
+		GetASC()->AbilityInputTagReleased(InputTag);
 			return;
 		}
 		

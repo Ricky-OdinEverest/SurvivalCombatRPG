@@ -9,7 +9,12 @@
 #include "SCR_EInputComponent.generated.h"
 
 /**
- * 
+ * @class USCR_EInputComponent
+ * @brief An extended version of the UEnhancedInputComponent.
+ *
+ * This custom input component is designed to streamline the process of binding input actions
+ * defined in a USCR_InputConfig data asset. It provides templated helper functions to bind
+ * actions to gameplay abilities and native functions using GameplayTags, reducing boilerplate code.
  */
 UCLASS()
 class SURVIVALCOMBATRPG_API USCR_EInputComponent : public UEnhancedInputComponent
@@ -17,7 +22,18 @@ class SURVIVALCOMBATRPG_API USCR_EInputComponent : public UEnhancedInputComponen
 	GENERATED_BODY()
 	
 public:
-
+	/**
+	 * @brief Binds pressed, released, and held events for all ability actions defined in the InputConfig.
+	 * @tparam UserClass The type of the object that owns the functions to be bound (e.g., APlayerController, UCharacterMovementComponent).
+	 * @tparam PressedFuncType The type of the function to call when an action is pressed (Started event).
+	 * @tparam ReleasedFuncType The type of the function to call when an action is released (Completed event).
+	 * @tparam HeldFuncType The type of the function to call when an action is held (Triggered event).
+	 * @param InputConfig A pointer to the data asset containing the input action configurations.
+	 * @param Object The object instance on which the callback functions will be called.
+	 * @param PressedFunc The function to bind to the ETriggerEvent::Started event.
+	 * @param ReleasedFunc The function to bind to the ETriggerEvent::Completed event.
+	 * @param HeldFunc The function to bind to the ETriggerEvent::Triggered event.
+	 */
 	template<class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
 	 void BindAbilityActions(const USCR_InputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, HeldFuncType HeldFunc);
 

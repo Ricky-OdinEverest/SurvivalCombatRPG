@@ -58,3 +58,13 @@ template<>
 	};
 };
 
+UENUM(BlueprintType)
+enum class ECAbilityInputID : uint8
+{
+	None							UMETA(DisplayName="None"),
+	PrimaryAttack					UMETA(DisplayName="PrimaryAttack"),
+	SecondaryAttack					UMETA(DisplayName="SecondaryAttack"),
+	SpecialAttack					UMETA(DisplayName="SpecialAttack"),
+	Confirm							UMETA(DisplayName="Confirm"),
+	Cancel							UMETA(DisplayName="Cancel")
+};

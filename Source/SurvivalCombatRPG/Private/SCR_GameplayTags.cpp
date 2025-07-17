@@ -146,6 +146,12 @@ namespace SCR_GameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_BaseDamage,"Shared.SetByCaller.BaseDamage");
 
+	
+	/** Input Events **/
+	UE_DEFINE_GAMEPLAY_TAG(Input_Event_PrimaryAttack,"Input.Event.PrimaryAttack");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Event_SecondaryAttack,"Input.Event.SecondaryAttack");
+	UE_DEFINE_GAMEPLAY_TAG(Input_Event_SpecialAttack,"Input.Event.SpecialAttack");
+	
 	//future death imp tags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death,"Shared.Ability.Death");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Dead,"Shared.Status.Dead");
