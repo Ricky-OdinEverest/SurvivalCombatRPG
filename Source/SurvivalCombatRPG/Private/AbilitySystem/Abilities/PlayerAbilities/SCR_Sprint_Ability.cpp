@@ -4,6 +4,8 @@
 #include "AbilitySystem/Abilities/PlayerAbilities/SCR_Sprint_Ability.h"
 
 #include "AbilitySystemLog.h"
+#include "Characters/Player/SCR_PlayerCharacter.h"
+#include "Components/Movement/SCR_MovementComponent.h"
 
 USCR_Sprint_Ability::USCR_Sprint_Ability()
 {
@@ -13,11 +15,11 @@ void USCR_Sprint_Ability::ActivateAbility(const FGameplayAbilitySpecHandle Handl
 	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
 	const FGameplayEventData* TriggerEventData)
 {
-	if (!SprintStateEffect.Get()) return;
+	//if (!SprintStateEffect.Get()) return;
 
-	if (UAbilitySystemComponent* AbilitySystemComponent = GetAbilitySystemComponentFromActorInfo())
+	/*if (UAbilitySystemComponent* AbilitySystemComponent = GetAbilitySystemComponentFromActorInfo())
 	{
-		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+		//FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
 		FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(SprintStateEffect, 1, EffectContext);
 		if (SpecHandle.IsValid())
 		{
@@ -27,6 +29,12 @@ void USCR_Sprint_Ability::ActivateAbility(const FGameplayAbilitySpecHandle Handl
 				ABILITY_LOG(Log, TEXT("Ability %s failed to apply crouch effect %s"), *GetName(), *GetNameSafe(SprintStateEffect));
 			}
 		}
+	}*/
+
+	MovementComponent = Cast<USCR_MovementComponent>(GetPlayerCharacterFromActorInfo()->GetCharacterMovement());
+	if (MovementComponent)
+	{
+		float SprintSpeed = MovementComponent->GetMaxSpeed() * 2;
 	}
 }
 

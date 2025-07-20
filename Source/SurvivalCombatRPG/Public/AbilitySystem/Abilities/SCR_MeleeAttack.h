@@ -13,5 +13,9 @@ UCLASS()
 class SURVIVALCOMBATRPG_API USCR_MeleeAttack : public USCR_DamageGameplayAbility
 {
 	GENERATED_BODY()
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = "MeleeAttack")
+	FVector  GetMeleeRotationWarpTarget();
 	
 };

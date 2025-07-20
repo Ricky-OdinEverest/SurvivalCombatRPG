@@ -76,6 +76,10 @@
 			"Name": "SKModularPlugin",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/7ddc89dc1f64458d89e585378119e5bc"
+		},
+		{
+			"Name": "SkeletalMeshModelingTools",
+			"Enabled": true
 		}
 	]
 }

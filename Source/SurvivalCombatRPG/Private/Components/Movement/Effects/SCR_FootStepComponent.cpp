@@ -3,6 +3,7 @@
 
 #include "Components/Movement/Effects/SCR_FootStepComponent.h"
 
+#include "SCR_ParkourEnumTypes.h"
 #include "Characters/SCR_BaseCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/PhysicalMaterials/SCR_PhysicalMaterial.h"

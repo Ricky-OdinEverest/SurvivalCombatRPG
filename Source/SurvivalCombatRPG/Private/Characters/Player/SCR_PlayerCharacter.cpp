@@ -19,6 +19,9 @@
 ASCR_PlayerCharacter::ASCR_PlayerCharacter(const FObjectInitializer& ObjectInitializer) :
 	Super(ObjectInitializer.SetDefaultSubobjectClass<USCR_MovementComponent>(ACharacter::CharacterMovementComponentName))
 {
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	
 	GetCapsuleComponent()->InitCapsuleSize(42.f,96.f);
 
 	bUseControllerRotationPitch = false;
@@ -178,3 +181,31 @@ void ASCR_PlayerCharacter::InitAbilityActorInfo()
 }
 
 
+
+
+FRotator ASCR_PlayerCharacter::GetMeleeRotationWarpTarget(const FRotator& CurrentRotation, float DeltaTime, FRotator& DeltaRotation) const
+{
+	const UCharacterMovementComponent* CMC = GetCharacterMovement();
+	if (!CMC)
+	{
+		DeltaRotation = FRotator::ZeroRotator;
+		return CurrentRotation;
+	}
+	
+	FVector Direction = CMC->GetCurrentAcceleration();
+	
+	if (Direction.SizeSquared() < UE_KINDA_SMALL_NUMBER)
+	{
+		// AI path following request can orient us in that direction (it's effectively an acceleration)
+		/*if (CMC->bHasRequestedVelocity && GetCharacterMovement()->RequestedVelocity.SizeSquared() > UE_KINDA_SMALL_NUMBER)
+		{
+			return GetCharacterMovement()->RequestedVelocity.GetSafeNormal().Rotation();
+		}*/
+
+		// Don't change rotation if there is no acceleration.
+		return CurrentRotation;
+	}
+
+	// Rotate toward direction of acceleration.
+	return Direction.Rotation();
+}

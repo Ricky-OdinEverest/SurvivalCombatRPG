@@ -14,10 +14,3 @@ enum class ESCR_ValidType : uint8
 	Invalid
 };
 
-UENUM(BlueprintType)
-enum class EFoot : uint8
-{
-	Left  UMETA(DisplayName = "Left"),
-	Right UMETA(DisplayName = "Right")
-};
-

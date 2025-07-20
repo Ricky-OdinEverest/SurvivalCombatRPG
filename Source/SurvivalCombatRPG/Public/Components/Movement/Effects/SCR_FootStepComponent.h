@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "SCR_MeleeEnumTypes.h"
 #include "SCR_FootStepComponent.generated.h"
 
-
+enum class EFoot : uint8;
+class SCR_ParkourEnumTypes;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SURVIVALCOMBATRPG_API USCR_FootStepComponent : public UActorComponent
 {

@@ -7,6 +7,7 @@
 #include "SCR_MeleeEnumTypes.h"  
 #include "SCR_Step_AnimNotify.generated.h"
 
+enum class EFoot : uint8;
 /**
  * 
  */

@@ -78,6 +78,7 @@ private:
 
 	virtual void InitAbilityActorInfo() override;
 
+
 public:
 	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponent;}
 
@@ -88,4 +89,7 @@ protected:
 	// Jump Ability with tags currently Broken Up Between the Player controller and this class
 	UPROPERTY(EditDefaultsOnly)
 	FGameplayTagContainer InAirTags;
+
+	UFUNCTION(BlueprintCallable, Category = "OnCarMeleeAttack")
+	FRotator GetMeleeRotationWarpTarget(const FRotator& CurrentRotation, float DeltaTime, FRotator& DeltaRotation) const;
 };

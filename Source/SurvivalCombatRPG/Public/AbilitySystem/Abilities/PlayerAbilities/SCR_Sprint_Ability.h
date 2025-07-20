@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/PlayerAbilities/SCR_BaseMovement_Ability.h"
 #include "SCR_Sprint_Ability.generated.h"
-
+class USCR_MovementComponent;
 /**
  * 
  */
@@ -24,5 +24,7 @@ class SURVIVALCOMBATRPG_API USCR_Sprint_Ability : public USCR_BaseMovement_Abili
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> SprintStateEffect;
+
+	USCR_MovementComponent* MovementComponent;
 	
 };
