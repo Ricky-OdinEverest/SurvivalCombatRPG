@@ -136,10 +136,14 @@ namespace SCR_GameplayTags
 	/** Enemy tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon,"Enemy.Weapon");
 
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_Strafing,"Enemy.Status.Strafing");
+	
+
 	/** Abilities Enemy **/
 	
 	UE_DEFINE_GAMEPLAY_TAG(Abilities_Attack,"Abilities.Attack");
-	
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Abilities_Melee,"Enemy.Abilities.Melee");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Abilities_Range,"Enemy.Abilities.Range");
 
 	/** Shared tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_MeleeHit,"Shared.Event.MeleeHit");

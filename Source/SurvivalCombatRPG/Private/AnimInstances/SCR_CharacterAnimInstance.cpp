@@ -2,6 +2,8 @@
 
 
 #include "AnimInstances/SCR_CharacterAnimInstance.h"
+
+#include "KismetAnimationLibrary.h"
 #include "Characters/SCR_BaseCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -36,4 +38,6 @@ void USCR_CharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeco
 	bIsFalling = OwningMovementComponent->IsFalling();
 	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D()>0.f;
 	bIsCrouched = OwningMovementComponent->IsCrouching();
+
+	LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(OwningCharacter->GetVelocity(),OwningCharacter->GetActorRotation());
 }

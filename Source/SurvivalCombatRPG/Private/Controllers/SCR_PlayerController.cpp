@@ -25,6 +25,13 @@ ASCR_PlayerController::ASCR_PlayerController()
 	bReplicates = true;
 
 	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
+
+	HeroTeamID = FGenericTeamId(0);
+}
+
+FGenericTeamId ASCR_PlayerController::GetGenericTeamId() const
+{
+	return HeroTeamID;
 }
 
 void ASCR_PlayerController::PlayerTick(float DeltaTime)

@@ -17,7 +17,7 @@ class SURVIVALCOMBATRPG_API ASCR_AIController : public AAIController
 	GENERATED_BODY()
 
 public:
-	ASCR_AIController();
+	ASCR_AIController(const FObjectInitializer& ObjectInitializer);
 protected:
  
 	UPROPERTY()

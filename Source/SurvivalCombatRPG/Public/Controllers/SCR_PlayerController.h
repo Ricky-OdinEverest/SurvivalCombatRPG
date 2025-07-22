@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "GameplayTagContainer.h"
+#include "GenericTeamAgentInterface.h"
 #include "SCR_PlayerController.generated.h"
 
 class UInputAction;
@@ -18,11 +19,17 @@ struct FInputActionValue;
  * 
  */
 UCLASS()
-class SURVIVALCOMBATRPG_API ASCR_PlayerController : public APlayerController
+class SURVIVALCOMBATRPG_API ASCR_PlayerController : public APlayerController, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 public:
 	ASCR_PlayerController();
+
+	
+	//~ Begin IGenericTeamAgentInterface Interface.
+	virtual FGenericTeamId GetGenericTeamId() const override;
+	//~ End IGenericTeamAgentInterface Interface
+
 
 	virtual void PlayerTick(float DeltaTime) override;
 	
@@ -53,7 +60,7 @@ protected:
 	
 
 private:
-
+	FGenericTeamId HeroTeamID;
 
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))

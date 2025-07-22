@@ -6,7 +6,8 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
-ASCR_AIController::ASCR_AIController()
+ASCR_AIController::ASCR_AIController(const FObjectInitializer& ObjectInitializer) 
+	: Super(ObjectInitializer) // <-- Add this line
 {
 	Blackboard = CreateDefaultSubobject<UBlackboardComponent>("BlackboardComponent");
 	check(Blackboard);

@@ -17,7 +17,10 @@ public class SurvivalCombatRPG : ModuleRules
 			"GameplayTasks",
 			"GameplayAbilities",
 			"AIModule",
-			"NetCore" // Mods After Specified in Ninja Bear Docs
+			"NetCore",
+			"UMG",
+			"AnimGraphRuntime"
+			// Mods After Specified in Ninja Bear Docs
 			/*"CommonUI",
 			"ModelViewViewModel",
 			"NinjaCombat",
@@ -29,7 +32,7 @@ public class SurvivalCombatRPG : ModuleRules
 			"UMG"*/
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {"NavigationSystem", "Niagara" });
+		PrivateDependencyModuleNames.AddRange(new string[] {"NavigationSystem", "Niagara", "PCG" });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

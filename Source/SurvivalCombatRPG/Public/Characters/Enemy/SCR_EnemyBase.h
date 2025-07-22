@@ -12,6 +12,7 @@
 class UWidgetComponent;
 class UBehaviorTree;
 class ASCR_AIController;
+class AIController;
 /**
  * 
  */
