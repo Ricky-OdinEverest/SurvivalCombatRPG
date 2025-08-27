@@ -19,7 +19,8 @@ public class SurvivalCombatRPG : ModuleRules
 			"AIModule",
 			"NetCore",
 			"UMG",
-			"AnimGraphRuntime"
+			"AnimGraphRuntime",
+			"MotionWarping"
 			// Mods After Specified in Ninja Bear Docs
 			/*"CommonUI",
 			"ModelViewViewModel",

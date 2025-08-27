@@ -4,6 +4,7 @@
 #include "Items/Weapons/SCR_WeaponBase.h"
 #include "Components/BoxComponent.h"
 #include "SCR_DebugHelper.h"
+#include "SCR_MeleeBPFunctionLibrary.h"
 // Sets default values
 ASCR_WeaponBase::ASCR_WeaponBase()
 {
@@ -35,7 +36,7 @@ void ASCR_WeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* Overlapped
  
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
+		if (USCR_MeleeBPFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn,HitPawn))
 		{
 			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
 		}
@@ -50,16 +51,20 @@ void ASCR_WeaponBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedCo
 	APawn* WeaponOwningPawn = GetInstigator<APawn>();
  
 	checkf(WeaponOwningPawn,TEXT("Forgot to assign an instiagtor as the owning pawn of the weapon: %s"),*GetName());
- 
+
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
+		if (USCR_MeleeBPFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn,HitPawn))
 		{
-			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
-		}
+			if (WeaponOwningPawn != HitPawn)
+			{
+				OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
+			}
  
-		//TODO:Implement hit check for enemy characters
+			//TODO:Implement hit check for enemy characters
+		}
 	}
+
 }
 
 void ASCR_WeaponBase::HandleDrop_Implementation()

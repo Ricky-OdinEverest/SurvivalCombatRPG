@@ -4,6 +4,7 @@
 #include "SCR_MeleeBPFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayTagContainer.h"
+#include "GenericTeamAgentInterface.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
 
@@ -67,4 +68,19 @@ UPawnCombatComponent* USCR_MeleeBPFunctionLibrary::BP_GetPawnCombatComponentFrom
 	OutValidType = CombatComponent? ESCR_ValidType::Valid : ESCR_ValidType::Invalid;
  
 	return CombatComponent;
+}
+
+bool USCR_MeleeBPFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)
+{
+	check(QueryPawn && TargetPawn);
+
+	IGenericTeamAgentInterface* QueryTeamAgent = Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
+	IGenericTeamAgentInterface* TargetTeamAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
+
+	if (QueryTeamAgent && TargetTeamAgent)
+	{
+		return QueryTeamAgent->GetGenericTeamId() != TargetTeamAgent->GetGenericTeamId();
+	}
+
+	return false;
 }
