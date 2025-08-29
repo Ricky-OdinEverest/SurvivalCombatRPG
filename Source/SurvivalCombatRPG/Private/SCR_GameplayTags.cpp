@@ -87,6 +87,9 @@ namespace SCR_GameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_LightAttack_Sword,"InputTag.LightAttack.Sword");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_HeavyAttack_Sword,"InputTag.HeavyAttack.Sword");
 
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Roll,"InputTag.Roll");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Dodge,"InputTag.Dodge");
+
 	
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Test,"InputTag.Test");
 
@@ -102,11 +105,17 @@ namespace SCR_GameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_UnEquip_Sword, "Player.Ability.UnEquip.Sword");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Test, "Player.Ability.Test");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Roll,"Player.Ability.Roll");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Dodge,"Player.Ability.Dodge");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_EquipSword, "Event.Weapon.Melee.EquipSword");
 	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_UnEquipSword, "Event.Weapon.Melee.UnEquipSword");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Rolling,"Player.Status.Rolling");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Dodge,"Player.Status.Dodge");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Light,"Player.SetByCaller.AttackType.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Heavy,"Player.SetByCaller.AttackType.Heavy");
@@ -137,6 +146,8 @@ namespace SCR_GameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon,"Enemy.Weapon");
 
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_Strafing,"Enemy.Status.Strafing");
+
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_UnderAttack,"Enemy.Status.UnderAttack");
 	
 
 	/** Abilities Enemy **/
@@ -150,6 +161,10 @@ namespace SCR_GameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_BaseDamage,"Shared.SetByCaller.BaseDamage");
 
+
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_HitReact,"Shared.Ability.HitReact");
+	
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_HitReact,"Shared.Event.HitReact");
 	
 	/** Input Events **/
 	UE_DEFINE_GAMEPLAY_TAG(Input_Event_PrimaryAttack,"Input.Event.PrimaryAttack");

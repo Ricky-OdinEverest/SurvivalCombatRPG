@@ -8,6 +8,7 @@
 #include "GameplayEffectExtension.h"
 #include "SCR_GameplayTags.h"
 #include "SCR_DebugHelper.h"
+#include "SCR_MeleeBPFunctionLibrary.h"
 #include "AbilitySystem/SCR_AbilitySystemLibrary.h"
 #include "Controllers/SCR_PlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -230,7 +231,7 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	 NewHealth
  );
  
-			Debug::Print(DebugString,FColor::Green);
+			//Debug::Print(DebugString,FColor::Green);
  
 			const bool bFatal = NewHealth <= 0.f;
 			
@@ -241,12 +242,37 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				{
 					CombatInterface->Die();
 				}
+				// Only used for restricting AI movement at the moment
+				USCR_MeleeBPFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(),SCR_GameplayTags::Shared_Status_Dead);
 			}
 			else
 			{
-				FGameplayTagContainer TagContainer;
+				// Original hit React Call Just activates ability without additional context information
+				
+				/*FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FSCR_GameplayTags::Get().Effects_HitReact);
-				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);*/
+
+				// Here I will try to apply more info to the hit react through an event
+
+				FGameplayEventData EventData;
+				EventData.EventTag = FSCR_GameplayTags::Get().Effects_HitReact;
+				EventData.Instigator = Props.SourceCharacter;
+				EventData.Target = Props.TargetAvatarActor;
+
+				if (const FHitResult* HitResult = Props.EffectContextHandle.GetHitResult())
+				{
+					EventData.OptionalObject = nullptr; // You could pass any UObject here
+					EventData.ContextHandle = Props.EffectContextHandle;
+					EventData.InstigatorTags = Props.SourceASC->GetOwnedGameplayTags(); // optional
+					EventData.TargetTags = Props.TargetASC->GetOwnedGameplayTags();     // optional
+					EventData.EventMagnitude = LocalIncomingDamage;
+					EventData.TargetData = UAbilitySystemBlueprintLibrary::AbilityTargetDataFromHitResult(*HitResult);
+				}
+
+				// Send the event to the target ASC
+				Props.TargetASC->HandleGameplayEvent(EventData.EventTag, &EventData);
+
 			}
 		}
 		

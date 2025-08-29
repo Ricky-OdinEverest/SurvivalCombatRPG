@@ -14,6 +14,7 @@ class UDataAsset_StartUpDataBase;
 class UGameplayEffect;
 class UGameplayAbility;
 class UAnimMontage;
+class UMotionWarpingComponent;
 
 
 UCLASS(Abstract)
@@ -106,6 +107,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MotionWarping")
+	UMotionWarpingComponent* Nat_MotionWarpingComponent;
 	
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 	

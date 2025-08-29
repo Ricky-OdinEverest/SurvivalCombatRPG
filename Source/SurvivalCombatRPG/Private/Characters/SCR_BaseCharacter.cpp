@@ -4,6 +4,7 @@
 #include "Characters/SCR_BaseCharacter.h"
 #include "Components/Movement/Effects/SCR_FootStepComponent.h"
 #include "AbilitySystemComponent.h"
+#include "MotionWarpingComponent.h"
 #include "SCR_GameplayTags.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -32,6 +33,8 @@ ASCR_BaseCharacter::ASCR_BaseCharacter()
 	OptionalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	FootstepsComponent = CreateDefaultSubobject<USCR_FootStepComponent>(TEXT("FootstepsComponent"));
+	
+	Nat_MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("Nat_MotionWarpingComponent"));
 
 }
 // This is identical aside from the object initializer parameter that allows for an alternate movement component class
@@ -53,6 +56,8 @@ ASCR_BaseCharacter::ASCR_BaseCharacter(const FObjectInitializer& ObjectInitializ
 	OptionalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
 	FootstepsComponent = CreateDefaultSubobject<USCR_FootStepComponent>(TEXT("FootstepsComponent"));
+
+	Nat_MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("Nat_MotionWarpingComponent"));
 }
 
 UAbilitySystemComponent* ASCR_BaseCharacter::GetAbilitySystemComponent() const
