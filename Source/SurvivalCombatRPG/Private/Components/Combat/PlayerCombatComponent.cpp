@@ -4,6 +4,7 @@
 #include "Components/Combat/PlayerCombatComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+
 #include "Items/Weapons/SCR_PlayerWeaponBase.h"
 #include "Net/UnrealNetwork.h"
 #include "SCR_DebugHelper.h"
@@ -24,19 +25,33 @@ float UPlayerCombatComponent::GetPlayerCurrentEquippWeaponDamageAtLevel(float In
 {
 	return GetPlayerCurrentEquippedWeapon()->PlayerWeaponData.WeaponBaseDamage.GetValueAtLevel(InLevel);
 }
-
-void UPlayerCombatComponent::OnHitTargetActor(AActor* HitActor)
+//Update 8/29
+void UPlayerCombatComponent::OnHitTargetActor(const FHitResult& HitResult)
 {
+	AActor* HitActor = HitResult.GetActor();
+
+	if (!HitActor)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No HitActor in FHitResult"));
+		return;
+	}
+	
 	if (OverlappedActors.Contains(HitActor))
 	{
 		return;
 	}
  
 	OverlappedActors.AddUnique(HitActor);
+
+
  
 	FGameplayEventData Data;
 	Data.Instigator = GetOwningPawn();
 	Data.Target = HitActor;
+	//8/22
+	Data.TargetData = UAbilitySystemBlueprintLibrary::AbilityTargetDataFromHitResult(HitResult);
+
+	
  
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
 		GetOwningPawn(),

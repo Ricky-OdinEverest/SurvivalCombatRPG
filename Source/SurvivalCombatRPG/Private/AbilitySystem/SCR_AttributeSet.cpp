@@ -259,7 +259,7 @@ void USCR_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				EventData.EventTag = FSCR_GameplayTags::Get().Effects_HitReact;
 				EventData.Instigator = Props.SourceCharacter;
 				EventData.Target = Props.TargetAvatarActor;
-
+				// Likley Deprecated as Hit Result should be coming from the hit event and not the reaction to the event
 				if (const FHitResult* HitResult = Props.EffectContextHandle.GetHitResult())
 				{
 					EventData.OptionalObject = nullptr; // You could pass any UObject here

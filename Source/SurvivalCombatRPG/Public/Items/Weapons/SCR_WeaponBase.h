@@ -8,8 +8,9 @@
 
 class UBoxComponent;
 
+//Possibly Deprecated so I can send the hit result instead of the actor alone
 DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate,AActor*)
-
+DECLARE_DELEGATE_OneParam(FOnTargetHitDelegate, const FHitResult&)
 UCLASS()
 class SURVIVALCOMBATRPG_API ASCR_WeaponBase : public AActor
 {
@@ -22,7 +23,7 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void HandleDrop();
 
-	FOnTargetInteractedDelegate OnWeaponHitTarget;
+	FOnTargetHitDelegate OnWeaponHitTarget;
 	FOnTargetInteractedDelegate OnWeaponPulledFromTarget;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")

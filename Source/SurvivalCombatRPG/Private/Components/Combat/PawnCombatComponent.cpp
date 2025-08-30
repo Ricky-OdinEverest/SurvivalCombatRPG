@@ -123,7 +123,8 @@ void UPawnCombatComponent::DropWeapon() const
 	}
 }
 
-void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
+//Update 8/29
+void UPawnCombatComponent::OnHitTargetActor(const FHitResult& HitResult)
 {
 	
 }
@@ -152,3 +153,8 @@ void UPawnCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME(UPawnCombatComponent, ReplicatedWeaponEntries);
 	DOREPLIFETIME(UPawnCombatComponent, CurrentEquippedWeaponTag);
 }
+
+
+
+
+

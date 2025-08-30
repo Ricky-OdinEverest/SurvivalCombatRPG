@@ -30,8 +30,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player|Combat")
 	float GetPlayerCurrentEquippWeaponDamageAtLevel(float InLevel) const;
 
-
-	virtual void OnHitTargetActor(AActor* HitActor) override;
+//Update 8/29
+	virtual void OnHitTargetActor(const FHitResult& HitResult) override;
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor) override;
 	
 private:

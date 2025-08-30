@@ -55,8 +55,9 @@ public:
 	void PrintWeaponMap() const;
 
 	void DropWeapon() const;
-	
-	virtual void OnHitTargetActor(AActor* HitActor);
+
+	//Update 8/29
+	virtual void OnHitTargetActor(const FHitResult& HitResult);
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
 
 protected:
@@ -79,6 +80,8 @@ protected:
 	void OnRep_WeaponEntries();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+
 
 
 };

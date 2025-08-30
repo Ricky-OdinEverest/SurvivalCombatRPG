@@ -146,6 +146,11 @@ TArray<FTaggedMontage> ASCR_BaseCharacter::GetAttackMontages_Implementation()
 	return AttackMontages;
 }
 
+UNiagaraSystem* ASCR_BaseCharacter::GetBloodEffect_Implementation()
+{
+	return BloodEffect;
+}
+
 UPawnCombatComponent* ASCR_BaseCharacter::GetPawnCombatComponent() const
 {
 	return nullptr;

@@ -15,6 +15,6 @@ class SURVIVALCOMBATRPG_API USCR_EnemyCombatComponent : public UPawnCombatCompon
 	GENERATED_BODY()
 	
 public:
-	virtual void OnHitTargetActor(AActor* HitActor) override;
+	virtual void OnHitTargetActor(const FHitResult& HitResult) override;
 	
 };

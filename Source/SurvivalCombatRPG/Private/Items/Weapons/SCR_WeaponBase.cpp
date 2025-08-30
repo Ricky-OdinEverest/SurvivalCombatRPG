@@ -2,6 +2,8 @@
 
 
 #include "Items/Weapons/SCR_WeaponBase.h"
+
+
 #include "Components/BoxComponent.h"
 #include "SCR_DebugHelper.h"
 #include "SCR_MeleeBPFunctionLibrary.h"
@@ -38,7 +40,42 @@ void ASCR_WeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* Overlapped
 	{
 		if (USCR_MeleeBPFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn,HitPawn))
 		{
-			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
+			
+			FVector BoxExtent = WeaponCollisionBox->GetScaledBoxExtent();
+			FVector Start = WeaponCollisionBox->GetComponentLocation();
+			FVector End = Start; // No movement; trace at current position
+			FRotator BoxRotation = WeaponCollisionBox->GetComponentRotation();
+
+			FCollisionQueryParams QueryParams;
+			QueryParams.AddIgnoredActor(this);
+			QueryParams.AddIgnoredActor(WeaponOwningPawn);
+			QueryParams.bTraceComplex = true;
+
+			FHitResult TraceHit;
+
+			bool bHit = GetWorld()->SweepSingleByChannel(
+				TraceHit,
+				Start,
+				End,
+				BoxRotation.Quaternion(),
+				ECC_Pawn, 
+				FCollisionShape::MakeBox(BoxExtent),
+				QueryParams
+			);
+#if WITH_EDITOR
+			// Debug draw
+			DrawDebugBox(GetWorld(), Start, BoxExtent, BoxRotation.Quaternion(), bHit ? FColor::Red : FColor::Green, false, 2.0f);
+#endif
+			if (bHit && TraceHit.GetActor() == OtherActor)
+			{
+				UE_LOG(LogTemp, Log, TEXT("Valid trace confirmed: %s"), *TraceHit.GetActor()->GetName());
+				OnWeaponHitTarget.ExecuteIfBound(TraceHit);
+			}
+			else if (bHit)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Trace hit %s, but it does not match overlap actor %s — ignoring."),
+					*TraceHit.GetActor()->GetName(), *OtherActor->GetName());
+			}
 		}
  
 		//TODO:Implement hit check for enemy characters

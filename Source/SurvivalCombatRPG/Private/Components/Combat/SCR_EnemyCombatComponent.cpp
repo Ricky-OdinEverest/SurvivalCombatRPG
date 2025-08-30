@@ -7,8 +7,9 @@
 #include "SCR_DebugHelper.h"
 #include "SCR_GameplayTags.h"
 
-void USCR_EnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
+void USCR_EnemyCombatComponent::OnHitTargetActor(const FHitResult& HitResult)
 {
+	AActor* HitActor = HitResult.GetActor();
 	if (OverlappedActors.Contains(HitActor))
 	{
 
@@ -32,6 +33,9 @@ void USCR_EnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	FGameplayEventData EventData;
 	EventData.Instigator = GetOwningPawn();
 	EventData.Target = HitActor;
+//8//22
+	EventData.TargetData = UAbilitySystemBlueprintLibrary::AbilityTargetDataFromHitResult(HitResult);
+
 
 	if (bIsValidBlock)
 	{
