@@ -90,8 +90,16 @@ namespace SCR_GameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Roll,"InputTag.Roll");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Dodge,"InputTag.Dodge");
 
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_MustBeHeld,"InputTag.MustBeHeld");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_MustBeHeld_Block,"InputTag.MustBeHeld.Block");
+
 	
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Test,"InputTag.Test");
+
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable,"InputTag.Toggleable");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable_TargetLock,"InputTag.Toggleable.TargetLock");
+
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_SwitchTarget,"InputTag.SwitchTarget");
 
 	/** Player Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Sword,"Player.Weapon.Sword");
@@ -108,6 +116,10 @@ namespace SCR_GameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Roll,"Player.Ability.Roll");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Dodge,"Player.Ability.Dodge");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Block,"Player.Ability.Block");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_TargetLock,"Player.Ability.TargetLock");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_TargetUnLock,"Player.Ability.TargetUnLock");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_EquipSword, "Event.Weapon.Melee.EquipSword");
 	UE_DEFINE_GAMEPLAY_TAG(Event_Weapon_Melee_UnEquipSword, "Event.Weapon.Melee.UnEquipSword");
@@ -123,6 +135,11 @@ namespace SCR_GameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_HitPause,"Player.Ability.HitPause");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_HitPause,"Player.Event.HitPause");
 
+	UE_DEFINE_GAMEPLAY_TAG(Player_Event_SuccessfulBlock,"Player.Event.SuccessfulBlock");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Event_SwitchTarget_Left,"Player.Event.SwitchTarget.Left");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Event_SwitchTarget_Right,"Player.Event.SwitchTarget.Right");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Event_SwitchTarget_Up,"Player.Event.SwitchTarget.Up");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Event_SwitchTarget_Down,"Player.Event.SwitchTarget.Down");
 	
 	/** Player movement Ability Tags **/
 
@@ -174,6 +191,14 @@ namespace SCR_GameplayTags
 	//future death imp tags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death,"Shared.Ability.Death");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Dead,"Shared.Status.Dead");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Blocking,"Player.Status.Blocking");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_TargetLock,"Player.Status.TargetLock");
+	
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Front,"Shared.Status.HitReact.Front");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Left,"Shared.Status.HitReact.Left");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Right,"Shared.Status.HitReact.Right");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Back,"Shared.Status.HitReact.Back");
 
 	// Gore Tags UE Gore
 	UE_DEFINE_GAMEPLAY_TAG(GameplayCue_Character_DamageTaken,"GameplayCue.Character.DamageTaken");

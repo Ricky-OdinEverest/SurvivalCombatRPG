@@ -2,6 +2,8 @@
 
 
 #include "AbilitySystem/Abilities/SCR_GameplayAbility.h"
+//trying to fix block ability
+#include "AbilitySystemGlobals.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/SCR_AbilitySystemComponent.h"
@@ -35,6 +37,8 @@ void USCR_GameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
 		}
 	}
 }
+
+
 
 UPawnCombatComponent* USCR_GameplayAbility::GetPawnCombatComponentFromActorInfo() const
 {

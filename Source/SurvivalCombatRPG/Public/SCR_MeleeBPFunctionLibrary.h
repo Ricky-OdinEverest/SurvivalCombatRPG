@@ -25,7 +25,7 @@ public:
 	static void AddGameplayTagToActorIfNone(AActor* InActor,FGameplayTag TagToAdd);
  
 	UFUNCTION(BlueprintCallable, Category = "SCR_Melee|FunctionLibrary")
-	static void RemoveGameplayFromActorIfFound(AActor* InActor,FGameplayTag TagToRemove);
+	static void  RemoveGameplayTagFromActorIfFound(AActor* InActor,FGameplayTag TagToRemove);
  
 	static bool NativeDoesActorHaveTag(AActor* InActor,FGameplayTag TagToCheck);
  
@@ -38,7 +38,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "SCR_Melee|FunctionLibrary", meta = (DisplayName = "Get Pawn Combat Component From Actor", ExpandEnumAsExecs = "OutValidType"))
 	static UPawnCombatComponent* BP_GetPawnCombatComponentFromActor(AActor* InActor,ESCR_ValidType& OutValidType);
 
-	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary")
+	UFUNCTION(BlueprintPure, Category ="SCR_Melee|FunctionLibrary")
 	static bool IsTargetPawnHostile(APawn* QueryPawn,APawn* TargetPawn);
+
+	UFUNCTION(BlueprintPure, Category = "SCR_Melee|FunctionLibrary")
+	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker,AActor* InVictim,float& OutAngleDifference);
+
+	UFUNCTION(BlueprintPure, Category = "SCR_Melee|FunctionLibrary")
+	static bool IsValidBlock(AActor* InAttacker,AActor* InDefender);
 	
 };

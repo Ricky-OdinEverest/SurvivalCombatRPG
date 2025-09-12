@@ -9,6 +9,9 @@
 
 class ASCR_WeaponBase;
 
+//update
+class UPrimitiveComponent;
+
 
 UENUM(BlueprintType)
 enum class EToggleDamageType : uint8
@@ -50,6 +53,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Player|Combat")
 	void ToggleWeaponCollision(bool bShouldEnable,EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
+
+	UFUNCTION(BlueprintCallable, Category = "Player|Combat")
+	void ToggleCombatTrace(bool bShouldEnable,EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
 
 	UFUNCTION(BlueprintCallable, Category = "Debug")
 	void PrintWeaponMap() const;

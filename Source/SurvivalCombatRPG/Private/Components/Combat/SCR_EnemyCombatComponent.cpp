@@ -6,6 +6,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "SCR_DebugHelper.h"
 #include "SCR_GameplayTags.h"
+#include "SCR_MeleeBPFunctionLibrary.h"
 
 void USCR_EnemyCombatComponent::OnHitTargetActor(const FHitResult& HitResult)
 {
@@ -21,13 +22,14 @@ void USCR_EnemyCombatComponent::OnHitTargetActor(const FHitResult& HitResult)
 
 	//TODO:: Implement block check
 	bool bIsValidBlock = false;
-
-	const bool bIsPlayerBlocking = false;
+	//Is player Currently Blocking
+	const bool bIsPlayerBlocking = USCR_MeleeBPFunctionLibrary::NativeDoesActorHaveTag(HitActor,SCR_GameplayTags::Player_Status_Blocking);
 	const bool bIsMyAttackUnblockable = false;
 
 	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
-		//TODO::check if the block is valid
+		//Is the the block valid
+		bIsValidBlock = USCR_MeleeBPFunctionLibrary::IsValidBlock(GetOwningPawn(),HitActor);
 	}
 
 	FGameplayEventData EventData;
@@ -39,7 +41,11 @@ void USCR_EnemyCombatComponent::OnHitTargetActor(const FHitResult& HitResult)
 
 	if (bIsValidBlock)
 	{
-		//TODO::Handle successful block
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		HitActor,
+		SCR_GameplayTags::Player_Event_SuccessfulBlock,
+		EventData
+);
 	}
 	else
 	{

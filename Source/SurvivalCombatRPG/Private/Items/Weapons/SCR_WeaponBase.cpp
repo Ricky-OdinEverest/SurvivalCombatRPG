@@ -14,8 +14,8 @@ ASCR_WeaponBase::ASCR_WeaponBase()
 	bReplicates = true;
 	AActor::SetReplicateMovement(true);
 	
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
+	SetActorTickEnabled(false); // Start disabled
 
 	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
 	SetRootComponent(WeaponMesh);
@@ -29,8 +29,22 @@ ASCR_WeaponBase::ASCR_WeaponBase()
 	
 }
 
+void ASCR_WeaponBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+
+	// Perform the sweep each tick while overlapping
+	if (bIsOverlappingHostile)
+	{
+		PerformBoxSweep();
+	}
+		
+	
+}
+
 void ASCR_WeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+                                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	APawn* WeaponOwningPawn = GetInstigator<APawn>();
  
@@ -40,8 +54,11 @@ void ASCR_WeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* Overlapped
 	{
 		if (USCR_MeleeBPFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn,HitPawn))
 		{
+			//  Enable ticking when a hostile is overlapping
+			bIsOverlappingHostile = true;
+			SetActorTickEnabled(true);
 			
-			FVector BoxExtent = WeaponCollisionBox->GetScaledBoxExtent();
+			/*FVector BoxExtent = WeaponCollisionBox->GetScaledBoxExtent();
 			FVector Start = WeaponCollisionBox->GetComponentLocation();
 			FVector End = Start; // No movement; trace at current position
 			FRotator BoxRotation = WeaponCollisionBox->GetComponentRotation();
@@ -75,7 +92,7 @@ void ASCR_WeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* Overlapped
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Trace hit %s, but it does not match overlap actor %s — ignoring."),
 					*TraceHit.GetActor()->GetName(), *OtherActor->GetName());
-			}
+			}*/
 		}
  
 		//TODO:Implement hit check for enemy characters
@@ -96,6 +113,10 @@ void ASCR_WeaponBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedCo
 			if (WeaponOwningPawn != HitPawn)
 			{
 				OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
+				bIsOverlappingHostile = false;
+
+				// ✅ Disable ticking when hostile ends overlap
+				SetActorTickEnabled(false);
 			}
  
 			//TODO:Implement hit check for enemy characters
@@ -113,4 +134,50 @@ void ASCR_WeaponBase::HandleDrop_Implementation()
 	WeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 }
 
+void ASCR_WeaponBase::PerformBoxSweep()
+{
+
+
+	FVector BoxExtent = WeaponCollisionBox->GetScaledBoxExtent();
+	FVector Start = WeaponCollisionBox->GetComponentLocation();
+	FVector End = Start;
+	FRotator BoxRotation = WeaponCollisionBox->GetComponentRotation();
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	QueryParams.AddIgnoredActor(GetInstigator());
+	QueryParams.bTraceComplex = true;
+
+	FHitResult TraceHit;
+
+	bool bHit = GetWorld()->SweepSingleByChannel(
+		TraceHit,
+		Start,
+		End,
+		BoxRotation.Quaternion(),
+		ECC_Pawn,
+		FCollisionShape::MakeBox(BoxExtent),
+		QueryParams
+	);
+
+#if WITH_EDITOR
+	//DrawDebugBox(GetWorld(), Start, BoxExtent, BoxRotation.Quaternion(), bHit ? FColor::Red : FColor::Green, false, 0.1f);
+#endif
+
+	if (bHit && TraceHit.GetActor())
+	{
+		if (APawn* WeaponOwningPawn = GetInstigator<APawn>())
+		{
+			if (APawn* HitPawn = Cast<APawn>(TraceHit.GetActor()))
+			{
+				if (USCR_MeleeBPFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
+				{
+					
+					OnWeaponHitTarget.ExecuteIfBound(TraceHit);
+				//	UE_LOG(LogTemp, Log, TEXT("Tick Sweep Hit: %s"), *HitPawn->GetName());
+				}
+			}
+		}
+	}
+}
 

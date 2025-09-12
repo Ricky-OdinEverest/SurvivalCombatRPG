@@ -106,7 +106,8 @@ void ASCR_PlayerController::SetupInputComponent()
 	
 	//SCR_EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ASCR_PlayerController::Input_Move);
 	SCR_EnhancedInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
-
+	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_SwitchTarget,ETriggerEvent::Triggered,this,&ThisClass::Input_SwitchTargetTriggered);
+	SCR_EnhancedInputComponent->BindNativeInputAction(InputConfig,SCR_GameplayTags::InputTag_SwitchTarget,ETriggerEvent::Completed,this,&ThisClass::Input_SwitchTargetCompleted);
 }
 
 UEnhancedInputLocalPlayerSubsystem* ASCR_PlayerController::GetEnhancedInputSubsystem() const
@@ -184,6 +185,44 @@ void ASCR_PlayerController::Input_Jump(const FInputActionValue& InputActionValue
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(ControlledCharacter, JumpEventTag, Payload);
 	}*/
 
+}
+
+void ASCR_PlayerController::Input_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
+{
+	SwitchDirection = InputActionValue.Get<FVector2D>();
+	//Debug::Print(TEXT("SwitchDirection: "));
+}
+
+void ASCR_PlayerController::Input_SwitchTargetCompleted(const FInputActionValue& InputActionValue)
+{
+	FGameplayEventData Data;
+
+	const float AbsX = FMath::Abs(SwitchDirection.X);
+	const float AbsY = FMath::Abs(SwitchDirection.Y);
+
+	if (AbsX < 0.1f && AbsY < 0.1f)
+	{
+		// Ignore tiny flicks or no input
+		return;
+	}
+
+	// If you want to prioritize horizontal or vertical
+	if (AbsX >= AbsY)
+	{
+		const FGameplayTag EventTag = SwitchDirection.X > 0.f
+			? SCR_GameplayTags::Player_Event_SwitchTarget_Right
+			: SCR_GameplayTags::Player_Event_SwitchTarget_Left;
+
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetPawn(), EventTag, Data);
+	}
+	else
+	{
+		const FGameplayTag EventTag = SwitchDirection.Y < 0.f
+			? SCR_GameplayTags::Player_Event_SwitchTarget_Up
+			: SCR_GameplayTags::Player_Event_SwitchTarget_Down;
+
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetPawn(), EventTag, Data);
+	}
 }
 
 void ASCR_PlayerController::CursorTrace()

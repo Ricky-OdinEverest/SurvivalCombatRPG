@@ -104,6 +104,28 @@ void UPawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDama
 	}
 }
 
+void UPawnCombatComponent::ToggleCombatTrace(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+	if (ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
+	{
+		ASCR_WeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+ 
+		check(WeaponToToggle);
+ 
+		if (bShouldEnable)
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			
+		}
+		else
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			OverlappedActors.Empty();
+			
+		}		
+	}
+}
+
 void UPawnCombatComponent::PrintWeaponMap() const
 {
 	for (const auto& Elem : CharacterCarriedWeaponMap)

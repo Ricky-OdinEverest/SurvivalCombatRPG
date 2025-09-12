@@ -45,7 +45,23 @@ void USCR_AbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& Inp
 				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
 			}
 		}
+		// Custom toggleable ability handling
+
+		// Bug Trigger all abilites at once
+		
+		/*if (InputTag.MatchesTag(SCR_GameplayTags::InputTag_Toggleable))
+		{
+			if (AbilitySpec.IsActive())
+			{
+				CancelAbilityHandle(AbilitySpec.Handle);
+			}
+			else
+			{
+				TryActivateAbility(AbilitySpec.Handle);
+			}
+		}*/
 	}
+	
 }
 
 void USCR_AbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
@@ -77,6 +93,10 @@ void USCR_AbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& In
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
 		{
+			if (InputTag.MatchesTag(SCR_GameplayTags::InputTag_MustBeHeld))
+			{
+				CancelAbilityHandle(AbilitySpec.Handle);
+			}
 			AbilitySpecInputReleased(AbilitySpec);
 		}
 	}

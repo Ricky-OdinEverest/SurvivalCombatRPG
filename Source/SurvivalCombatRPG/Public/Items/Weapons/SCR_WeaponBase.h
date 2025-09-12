@@ -28,6 +28,9 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
 	UStaticMeshComponent* WeaponMesh;
+
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 
 
@@ -40,7 +43,11 @@ protected:
  
 	UFUNCTION()
 	virtual void OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	void PerformBoxSweep();
 
 public:
 	FORCEINLINE UBoxComponent* GetWeaponCollisionBox() const { return WeaponCollisionBox;}
+
+	private:
+	bool bIsOverlappingHostile = false;
 };
